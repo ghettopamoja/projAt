@@ -31,123 +31,75 @@
     <div id="user-details"> <!-- Corrected ID -->
         <!-- User details will be populated here -->
     </div>
-    <p class="my-watchhours"></p>
+
     <script>
-      function displayUserDetails(userData) {
-        const userDetailsContainer = document.getElementById('user-details'); // Corrected ID
+        // Function to dynamically create and append the watch hours element
+        function createWatchHoursElement(userDiv, watchHours) {
+            // Create a p element
+            const watchHoursElement = document.createElement('p');
+            watchHoursElement.classList.add('my-watchhours'); // Add class to p element
+            watchHoursElement.textContent = `Watch Hours: ${watchHours.toFixed(2)}`; // Set text content
+            // Append p element to userDiv
+            userDiv.appendChild(watchHoursElement);
+        }
 
-        // Clear previous content
-        userDetailsContainer.innerHTML = '';
+        // Function to display user details
+        function displayUserDetails(userData) {
+            const userDetailsContainer = document.getElementById('user-details'); // Get container element
 
-        // Loop through each user in the userData array
-        userData.forEach(user => {
-            // Create a div element to display user details
-            const userDiv = document.createElement('div');
-            userDiv.classList.add('user-details'); // Add user-details class
+            // Clear previous content
+            userDetailsContainer.innerHTML = '';
 
-            // Display username
-            const username = document.createElement('p');
-            username.textContent = `Username: ${user['First Name']} ${user['Second Name']}`;
-            userDiv.appendChild(username);
+            // Loop through each user in the userData array
+            userData.forEach(user => {
+                // Create a div element to display user details
+                const userDiv = document.createElement('div');
+                userDiv.classList.add('user-details'); // Add user-details class
 
-            // Display partial ID number (first two and last three digits)
-            const partialIdNumber = user['ID number'] ? `${user['ID number'].slice(0, 2)}****${user['ID number'].slice(-3)}` : '';
-            const idNumber = document.createElement('p');
-            idNumber.textContent = `ID Number: ${partialIdNumber}`;
-            userDiv.appendChild(idNumber);
+                // Display username
+                const username = document.createElement('p');
+                username.textContent = `Username: ${user['First Name']} ${user['Second Name']}`;
+                userDiv.appendChild(username);
 
-            // Display partial phone number (first two and last three digits)
-            const partialPhoneNumber = user['Phone number'] ? `${user['Phone number'].slice(0, 2)}***${user['Phone number'].slice(-3)}` : '';
-            const phoneNumber = document.createElement('p');
-            phoneNumber.textContent = `Phone Number: ${partialPhoneNumber}`;
-            userDiv.appendChild(phoneNumber);
+                // Display partial ID number (first two and last three digits)
+                const partialIdNumber = user['ID number'] ? `${user['ID number'].slice(0, 2)}****${user['ID number'].slice(-3)}` : '';
+                const idNumber = document.createElement('p');
+                idNumber.textContent = `ID Number: ${partialIdNumber}`;
+                userDiv.appendChild(idNumber);
 
-            // Display watch hours
-            const watchHours = document.createElement('p');
-            watchHours.textContent = `Watch Hours: ${user['User watch hours']}`;
+                // Display partial phone number (first two and last three digits)
+                const partialPhoneNumber = user['Phone number'] ? `${user['Phone number'].slice(0, 2)}***${user['Phone number'].slice(-3)}` : '';
+                const phoneNumber = document.createElement('p');
+                phoneNumber.textContent = `Phone Number: ${partialPhoneNumber}`;
+                userDiv.appendChild(phoneNumber);
 
-            watchHours.classList.add('my-watchhours')
-            userDiv.appendChild(watchHours);
+                // Display watch hours
+                const watchHours = user['User watch hours']; // Assuming watch hours are provided in userData
 
-            // Add the user details div to the container
-            userDetailsContainer.appendChild(userDiv);
-        });
-    }
+                // Append watch hours element to user details
+                createWatchHoursElement(userDiv, watchHours);
 
-
-
-// Call the function to display user details when the page loads
-window.addEventListener('DOMContentLoaded', function() {
-    fetch('userData.json') // Adjust the endpoint URL if necessary
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to fetch user data');
-            }
-            return response.json();
-        })
-        .then(data => {
-            displayUserDetails(data);
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
-        
-    displayUserWatchHours();
-
-
-});
-
-    // Define a function to fetch user data and display it
-    function fetchAndDisplayUserDetails() {
-        fetch('userData.json') // Adjust the endpoint URL if necessary
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch user data');
-                }
-                return response.json();
-            })
-            .then(data => {
-                displayUserDetails(data);
-            })
-            .catch(error => {
-                console.error('Error fetching user data:', error);
+                // Add the user details div to the container
+                userDetailsContainer.appendChild(userDiv);
             });
-    }
+        }
 
-    // Define a function to fetch and display user details every five seconds
-    function updateUserDataPeriodically() {
-        fetchAndDisplayUserDetails(); // Fetch and display user data immediately
-
-        // Set interval to fetch and display user data every five seconds
-        setInterval(fetchAndDisplayUserDetails, 5000); // 5000 milliseconds = 5 seconds
-    }
-
-    // Call the function to update user data periodically when the page loads
-    window.addEventListener('DOMContentLoaded', function() {
-        updateUserDataPeriodically();
-    });
-
- 
-    function displayUserWatchHours() {
-        const watchHoursElements = document.querySelectorAll('.my-watchhours');
-
-        // Loop through each element with the my-watchhours class
-        watchHoursElements.forEach(watchHoursElement => {
-            // Retrieve the user's watch hours from localStorage or UserAnalytics.json
-            let userWatchHours = 0; // Set default value
-            // Retrieve watch hours from localStorage
-            const storedWatchHours = localStorage.getItem('watchHours');
-            if (storedWatchHours !== null) {
-                userWatchHours = parseFloat(storedWatchHours);
-            }
-            // Alternatively, retrieve watch hours from UserAnalytics.json
-
-            // Update the HTML element with the user's watch hours
-            watchHoursElement.textContent = userWatchHours.toFixed(2); // Assuming the watch hours are stored as a floating-point number
+        // Call the function to display user details when the page loads
+        window.addEventListener('DOMContentLoaded', function() {
+            fetch('userData.json') // Adjust the endpoint URL if necessary
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    displayUserDetails(data);
+                })
+                .catch(error => {
+                    console.error('Error fetching user data:', error);
+                });
         });
-    }
-
-
-</script>
+    </script>
 </body>
 </html>
