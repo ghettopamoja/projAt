@@ -97,7 +97,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Define a function to fetch user data and display it
     function fetchAndDisplayUserDetails() {
-        fetch('/userData.json') // Adjust the endpoint URL if necessary
+        fetch('userData.json') // Adjust the endpoint URL if necessary
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Failed to fetch user data');
