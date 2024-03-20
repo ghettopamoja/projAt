@@ -268,10 +268,6 @@ async function createVideos(videosData, ) {
         const videoDiv = document.createElement('div');
         videoDiv.classList.add('video-new');
         
-        const vidImage = document.createElement('img');
-        vidImage.src = videoData.thumbnail;
-        videoDiv.appendChild(vidImage); 
-
         const videoElement = document.createElement('video');
         videoElement.classList.add('myvideo');
         videoElement.src = videoData.url;
