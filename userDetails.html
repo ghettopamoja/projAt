@@ -65,6 +65,8 @@
             // Display watch hours
             const watchHours = document.createElement('p');
             watchHours.textContent = `Watch Hours: ${user['User watch hours']}`;
+
+            watchHours.classList.add('my-watchhours')
             userDiv.appendChild(watchHours);
 
             // Add the user details div to the container
