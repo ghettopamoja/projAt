@@ -601,7 +601,8 @@ items.forEach(function(item) {
                 case 'Event Sponsorship':
                     showLoadingOverlay(); // Show the loading overlay immediately
                     setTimeout(() => {
-                      loadVideos(item.textContent)
+                        const category = item.textContent;
+                        loadVideos(category, userData);
                       setTimeout(() => {
                         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
                     }, 8000);
@@ -750,11 +751,14 @@ window.addEventListener('offline', function(event) {
 });
 
 function loadVideos(category, userData) {
-    fetchVideosXHR(function(error, data) {
-        if (error) {
-            console.error('Error fetching videos:', error);
-            alert(error);
-        } else {
+    fetch('videos.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
             console.log('Videos data:', data);
             // Filter videos based on the category
             const filteredVideos = data.filter(video => video.category === category);
@@ -762,9 +766,13 @@ function loadVideos(category, userData) {
             filteredVideos.forEach(video => {
                 createVideos(userData, [video]); // Pass userData and individual video data
             });
-        }
-    });
+        })
+        .catch(error => {
+            console.error('Error fetching videos:', error);
+            alert(error);
+        });
 }
+
 
 
 
