@@ -35,13 +35,19 @@
     <script>
         // Function to dynamically create and append the watch hours element
         function createWatchHoursElement(userDiv, watchHours) {
-            // Create a p element
-            const watchHoursElement = document.createElement('p');
-            watchHoursElement.classList.add('my-watchhours'); // Add class to p element
-            watchHoursElement.textContent = `Watch Hours: ${watchHours.toFixed(2)}`; // Set text content
-            // Append p element to userDiv
-            userDiv.appendChild(watchHoursElement);
+            // Check if watchHours is a valid number
+            if (typeof watchHours === 'number' && !isNaN(watchHours)) {
+                // Create a p element
+                const watchHoursElement = document.createElement('p');
+                watchHoursElement.classList.add('my-watchhours'); // Add class to p element
+                watchHoursElement.textContent = `Watch Hours: ${watchHours.toFixed(2)}`; // Set text content
+                // Append p element to userDiv
+                userDiv.appendChild(watchHoursElement);
+            } else {
+                console.error('Invalid watch hours value:', watchHours);
+            }
         }
+
 
         // Function to display user details
         function displayUserDetails(userData) {
