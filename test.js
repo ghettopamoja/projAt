@@ -267,7 +267,11 @@ async function createVideos(videosData, ) {
     videosData.forEach(async (videoData, index) => {
         const videoDiv = document.createElement('div');
         videoDiv.classList.add('video-new');
-            
+        
+        const vidImage = document.createElement('img');
+        vidImage.src = videoData.thumbnail;
+        videoDiv.appendChild(vidImage); 
+        
         const videoElement = document.createElement('video');
         videoElement.classList.add('myvideo');
         videoElement.src = videoData.url;
@@ -383,7 +387,7 @@ async function createVideos(videosData, ) {
         
         // Append elements
         weblinkDiv.appendChild(weblinkTitle);
-        weblinkDiv.appendChild(websiteSpan);
+        
 
         buttonsDiv.appendChild(playButton);
         buttonsDiv.appendChild(volumeIcon);
