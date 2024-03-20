@@ -299,10 +299,6 @@ async function createVideos(videosData, ) {
         const weblinkTitle = document.createElement('h2');
         weblinkTitle.textContent = `Website link :${videoData.website} `;
 
-        const websiteSpan = document.createElement('span');
-        websiteSpan.classList.add('website');
-        websiteSpan.textContent = videoData.website;
-
         const buttonsDiv = document.createElement('div');
         buttonsDiv.classList.add('buttons');
         let isPlaying = false;
