@@ -29,6 +29,7 @@
 <body>
     <h1>User Details</h1>
     <div id="user-details"> <!-- Corrected ID -->
+        <p class="my-watchhours"></p>
         <!-- User details will be populated here -->
     </div>
 
@@ -129,20 +130,24 @@ window.addEventListener('DOMContentLoaded', function() {
 
  
     function displayUserWatchHours() {
-    const watchHoursElement = document.querySelector('.my-watchhours');
+        const watchHoursElements = document.querySelectorAll('.my-watchhours');
 
-    // Retrieve the user's watch hours from localStorage or UserAnalytics.json
-    let userWatchHours = 0; // Set default value
-    // Retrieve watch hours from localStorage
-    const storedWatchHours = localStorage.getItem('watchHours');
-    if (storedWatchHours !== null) {
-        userWatchHours = parseFloat(storedWatchHours);
+        // Loop through each element with the my-watchhours class
+        watchHoursElements.forEach(watchHoursElement => {
+            // Retrieve the user's watch hours from localStorage or UserAnalytics.json
+            let userWatchHours = 0; // Set default value
+            // Retrieve watch hours from localStorage
+            const storedWatchHours = localStorage.getItem('watchHours');
+            if (storedWatchHours !== null) {
+                userWatchHours = parseFloat(storedWatchHours);
+            }
+            // Alternatively, retrieve watch hours from UserAnalytics.json
+
+            // Update the HTML element with the user's watch hours
+            watchHoursElement.textContent = userWatchHours.toFixed(2); // Assuming the watch hours are stored as a floating-point number
+        });
     }
-    // Alternatively, retrieve watch hours from UserAnalytics.json
 
-    // Update the HTML element with the user's watch hours
-    watchHoursElement.textContent = userWatchHours.toFixed(2); // Assuming the watch hours are stored as a floating-point number
-}
 
 </script>
 </body>
