@@ -842,17 +842,21 @@ window.addEventListener('DOMContentLoaded', function() {
 });
 
 
-window.onscroll = () => {
-    const navbar = document.querySelector('nav');
-    if (window.pageYOffset > 100) {
-        navbar.style.position = 'fixed';
-        navbar.style.top = '0';
-        navbar.style.zIndex = '1000'; // Set a high z-index value to ensure it overlays the content
-        //navbar.style.marginLeft = '60px';
-    } else {
-        navbar.style.position = 'static'; // Restore the default position when not scrolled
-    }
-};
+document.addEventListener('DOMContentLoaded', () => {
+    // Your code here
+    window.onscroll = () => {
+        const navbar = document.querySelector('nav');
+        if (navbar && window.pageYOffset > 100) {
+            navbar.style.position = 'fixed';
+            navbar.style.top = '0';
+            navbar.style.zIndex = '1000'; // Set a high z-index value to ensure it overlays the content
+            //navbar.style.marginLeft = '60px';
+        } else if (navbar) {
+            navbar.style.position = 'static'; // Restore the default position when not scrolled
+        }
+    };
+});
+
 
 
 function showProfileDialog() {
