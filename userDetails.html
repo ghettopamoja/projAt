@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Details</title>
+    <style>
+        body{
+            background-color: #2ecc71;
+        }
+        .user-details {
+            background-color: #3498db; /* Set background color to azure */
+            padding: 10px; /* Add padding for spacing */
+            margin-bottom: 10px; /* Add margin between user details */
+            box-sizing: 10px 2px 10px #333;
+        }
+        @media only screen and (max-width: 420px){
+            body{
+                background-color: #3498db;
+                font-size: 14px;
+            }
+            .user-details{
+                background-color: #2ecc71;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <h1>User Details</h1>
+    <div id="user-details"> <!-- Corrected ID -->
+        <!-- User details will be populated here -->
+    </div>
+
+    <script>
+      function displayUserDetails(userData) {
+        const userDetailsContainer = document.getElementById('user-details'); // Corrected ID
+
+        // Clear previous content
+        userDetailsContainer.innerHTML = '';
+
+        // Loop through each user in the userData array
+        userData.forEach(user => {
+            // Create a div element to display user details
+            const userDiv = document.createElement('div');
+            userDiv.classList.add('user-details'); // Add user-details class
+
+            // Display username
+            const username = document.createElement('p');
+            username.textContent = `Username: ${user['First Name']} ${user['Second Name']}`;
+            userDiv.appendChild(username);
+
+            // Display partial ID number (first two and last three digits)
+            const partialIdNumber = user['ID number'] ? `${user['ID number'].slice(0, 2)}****${user['ID number'].slice(-3)}` : '';
+            const idNumber = document.createElement('p');
+            idNumber.textContent = `ID Number: ${partialIdNumber}`;
+            userDiv.appendChild(idNumber);
+
+            // Display partial phone number (first two and last three digits)
+            const partialPhoneNumber = user['Phone number'] ? `${user['Phone number'].slice(0, 2)}***${user['Phone number'].slice(-3)}` : '';
+            const phoneNumber = document.createElement('p');
+            phoneNumber.textContent = `Phone Number: ${partialPhoneNumber}`;
+            userDiv.appendChild(phoneNumber);
+
+            // Display watch hours
+            const watchHours = document.createElement('p');
+            watchHours.textContent = `Watch Hours: ${user['User watch hours']}`;
+            userDiv.appendChild(watchHours);
+
+            // Add the user details div to the container
+            userDetailsContainer.appendChild(userDiv);
+        });
+    }
+
+
+
+// Call the function to display user details when the page loads
+window.addEventListener('DOMContentLoaded', function() {
+    fetch('userData.json') // Adjust the endpoint URL if necessary
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch user data');
+            }
+            return response.json();
+        })
+        .then(data => {
+            displayUserDetails(data);
+        })
+        .catch(error => {
+            console.error('Error fetching user data:', error);
+        });
+        
+    displayUserWatchHours();
+
+
+});
+
+    // Define a function to fetch user data and display it
+    function fetchAndDisplayUserDetails() {
+        fetch('/userData.json') // Adjust the endpoint URL if necessary
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                displayUserDetails(data);
+            })
+            .catch(error => {
+                console.error('Error fetching user data:', error);
+            });
+    }
+
+    // Define a function to fetch and display user details every five seconds
+    function updateUserDataPeriodically() {
+        fetchAndDisplayUserDetails(); // Fetch and display user data immediately
+
+        // Set interval to fetch and display user data every five seconds
+        setInterval(fetchAndDisplayUserDetails, 5000); // 5000 milliseconds = 5 seconds
+    }
+
+    // Call the function to update user data periodically when the page loads
+    window.addEventListener('DOMContentLoaded', function() {
+        updateUserDataPeriodically();
+    });
+
+ 
+    function displayUserWatchHours() {
+    const watchHoursElement = document.querySelector('.my-watchhours');
+
+    // Retrieve the user's watch hours from localStorage or UserAnalytics.json
+    let userWatchHours = 0; // Set default value
+    // Retrieve watch hours from localStorage
+    const storedWatchHours = localStorage.getItem('watchHours');
+    if (storedWatchHours !== null) {
+        userWatchHours = parseFloat(storedWatchHours);
+    }
+    // Alternatively, retrieve watch hours from UserAnalytics.json
+
+    // Update the HTML element with the user's watch hours
+    watchHoursElement.textContent = userWatchHours.toFixed(2); // Assuming the watch hours are stored as a floating-point number
+}
+
+</script>
+</body>
+</html>

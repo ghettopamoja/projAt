@@ -1,0 +1,29 @@
+[
+    {
+        "First Name": "John",
+        "Second Name": "Doe",
+        "Phone number": "0741146031",
+        "Password": "mypassword123",
+        "ID number": "12345678",
+        "User Unique Number": "123456",
+        "User watch hours" : "0"
+    },
+    {
+        "First Name": "John",
+        "Second Name": "Smith",
+        "Phone number": "1 0000 000",
+        "Password": "mypasword456",
+        "ID number": "123456",
+        "User Unique Number": "123456",
+        "User watch hours" : "0"
+    },
+    {
+        "First Name": "John",
+        "Second Name": "Walker",
+        "Phone number": "1 8888 000",
+        "Password": "mypasword789",
+        "ID number": "123456",
+        "User Unique Number": "123456",
+        "User watch hours" : "0"
+    }
+]

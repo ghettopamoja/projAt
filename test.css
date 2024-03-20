@@ -1,0 +1,801 @@
+/* Basic styling for demonstration purposes */
+body {
+    margin: 0;
+    padding: 0;
+    color: black;
+}
+header {
+
+    background-image: url('_6c53ab0f-8c6b-4bca-92d6-8c6e6f9f3392.jpeg');
+    background-size: cover;
+    color: #333;
+    text-align: center;
+    padding-top: 5vw;
+    padding-bottom: 10vw;
+    margin-bottom: 10px; 
+    height: 20vh;   
+}
+header img{
+    width: 30%;
+    height: auto;
+}
+header .logon{
+    width: 10%; 
+    height: auto; 
+    margin-top: -30px;
+    margin-left: -100px;
+}
+header .logon i:hover{
+    border-bottom: 2px solid #fff;
+}
+nav .logos img{
+    width: 10%;
+    height: auto;
+}
+nav {
+    background-color: #3498db;
+    /* Apply gradient to simulate left-to-right animation */
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    /* Set background size to control animation */
+    background-size: 200% 100%;
+    /* Apply transition for smooth animation */
+    transition: background-position 0.75s;
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 98%;
+    margin: auto;
+    cursor: pointer;
+}
+nav:hover{
+    /* Move background position to the right */
+    background-position: -100% 0;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    
+}
+nav ul li {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #fff;
+    margin-left: 10px;
+}
+nav ul li a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 30px;
+    margin-right: 20px;
+}
+nav ul li i:hover{
+    -webkit-animation: rotate-diagonal-2 0.75s linear both;
+	        animation: rotate-diagonal-2 0.75s linear both;
+}
+nav .home{
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-right: 30px;
+    
+}
+nav .home p{
+    font-size: 20px;
+}
+
+nav .home :hover{
+    color: yellow;
+    cursor: pointer;
+}
+nav .home span{
+    font-size: 20px;
+    font-weight: bold;
+    margin:auto;
+}
+nav .home span:hover{
+    text-decoration: underline;
+    transition: 1000ms;
+}
+nav ul li a:hover{
+    border-bottom: 3px solid #fff;
+
+}
+
+#loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* ensure it's above all other content */
+    color: #fff;
+    font-size: 40px;
+}
+
+#loading-overlay p {
+    background-color:red;
+    font-size: 30px;
+    margin-right: 50px;
+    
+}
+.offline-page{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* ensure it's above all other content */
+    color: #fff;
+    font-size: 40px;
+    display: none;
+}
+.videos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding: 20px;
+    background-color: #fff;
+    margin: auto;
+}
+.video {
+    width: 90%;
+    height: auto;
+    margin-bottom: 30px;
+    border: 2px solid #ccc;
+    padding: 20px;
+    transform:translateX(5px);
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.video-new {
+    width: 90%;
+    height: auto;
+    margin-bottom: 30px;
+    border: 2px solid #ccc;
+    padding: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    transform:translateX(5px);
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+video  {
+    max-width: 98%;
+    height: auto;
+}
+.video h2 {
+    font-size: 14px;
+    margin-top: 10px;
+    color:black;
+    margin-left: 7px;
+}
+.video-new h2 {
+    font-size: 14px;
+    margin-top: 10px;
+    color:black;
+    margin-left: 7px;
+}
+.video .buttons {
+    display: flex;
+    background-color: transparent;
+    transform: translateX(10);
+    margin-top: 10px;
+}
+.video-new .buttons {
+    display: flex;
+    background-color: transparent;
+    transform: translateX(10);
+    margin-top: 10px;
+}
+.video .buttons button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s;
+    font-size: 20px;
+    margin-left: 10px;
+    color: #fff;
+    width: 10%;
+    border-radius: 15px;
+}
+.video-new .buttons button {
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s;
+    font-size: 20px;
+    margin-left: 10px;
+    color: #fff;
+    width: 10%;
+    border-radius: 15px;
+}
+.video .buttons button:active {
+    opacity: 0.6;
+    background-color: red;
+    color: black;
+}
+.video .buttons button:hover {
+    background-position: -100% 0;
+
+}
+.video-new .buttons button:hover {
+    background-position: -100% 0;
+}
+
+.video .buttons .views{
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s;
+    width: 7vw;
+    color: #fff;
+    margin-left: 20px;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 20px;
+    border-radius: 10px;
+}
+.video-new .buttons .views{
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s;
+    width: 7vw;
+    color: #fff;
+    margin-left: 20px;
+    text-align: center;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 40px;
+    border-radius: 10px;
+}
+.video .buttons .views:hover{
+    background-position: -100% 0;
+}
+.video-new .buttons .views:hover{
+    background-position: -100% 0;
+}
+/* CSS for dynamically created elements */
+.video  .weblinks {
+    background-color: #002fff;
+    color: #fff;
+    max-width: 100%;
+    height: auto;
+    
+}
+
+.video-new  .weblinks {
+    background-color: #3498db;
+    color: #fff;
+    max-width: 100%;
+    height: auto;
+    
+}
+
+.video  .weblinks h2,
+.video  .weblinks span {
+    color: #fff;
+    padding-left: 10px;
+    font-size: 30px;
+}
+
+.video-new  .weblinks h2,
+.video-new  .weblinks span {
+    color: #fff;
+    padding-left: 10px;
+    font-size: 30px;
+}
+.video-new img {
+    position: relative; /* Ensure positioning context */
+    z-index: 1; /* Higher than video element */
+    height: 40vh;
+    width: 70%;
+}
+
+.video-new video {
+    position: relative; /* Ensure positioning context */
+    z-index: 0; /* Lower than image */
+}
+
+.video-algo{
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s;
+    width: 90%;
+    margin-left: 70px;
+    min-height: 10vh;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    display: none;
+}
+.video-algo:hover{
+    background-position: -100% 0%;
+}
+.video-algo .container{
+        display: flex; /* Use flexbox */
+        overflow-x: auto; /* Enable horizontal scrolling */
+        max-width: 100%; /* Ensure content doesn't overflow viewport */
+        padding: 10px; /* Add some padding */
+    
+}
+.video-algo .container .item {
+    flex: 0 0 auto; /* Allow items to shrink and grow, but don't allow them to shrink below their content width */
+    margin-right: 10px; /* Add some spacing between items */
+    background-color: #ccc;
+    background-image: linear-gradient(to right, #ccc 0%, #ccc 50%, #000 50%, #000 100%);
+    background-size: 200% 100%;
+    transition: background-position 0.75s; 
+    padding: 10px; /* Add padding */
+    cursor: pointer;
+}
+.video-algo .container .item:hover{
+    background-position: -100% 0%;
+    color: #fff;
+}
+
+.video-algo .container .item.active {
+    background-color: #002fff;
+    color: #fff;
+    font-weight: bold;
+    border-bottom: 2px solid #fff;
+}
+
+.new-ads{
+    background-color: purple;
+    width: 90%;
+    margin-left: 70px;
+    min-height: 10vh;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    display: none;
+}
+
+.ad-setting{
+    background-color: green;
+    width: 90%;
+    margin-left: 70px;
+    min-height: 10vh;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    display: none;
+}
+.profile-info{
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 2.0s;
+    width: 90%;
+    margin-left: 70px;
+    min-height: 10vh;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    display: none;
+}
+.profile-info:hover{
+    background-position: -100% 0%;
+}
+.profile-info ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+.profile-info ul li {
+    margin-right: 20px;
+    text-decoration: none;
+    color: #fff;
+    margin-left: 10px;
+    margin-top: 20px;
+}
+
+.profile-info ul li a{
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+
+.videos .buttons .like-button.clicked {
+    color: #002fff; /* Change the color to your desired color */
+    background-color: #fff;
+}
+.videos .buttons .star-button.stared {
+    color: yellow; /* Change the color to your desired color */
+    background-color: purple;
+}
+.videos .video .volume-slider{
+    width: 100px;
+    margin-left: 10px;
+}
+.volume-slider.popped {
+    background-color: #f00; /* Change the background color to red */
+
+}
+.new-ads .search-area{
+    background-color: transparent;
+    width: 90%;
+    margin-left: 20px;
+    padding-top: 10px;
+    height: auto;
+
+}
+.search-area input{
+    background-color: transparent;
+    width: 90%;
+    min-height: 10vh;
+    margin-left: 20px;
+    border: none;
+    border-bottom: 3px solid #fff;
+    margin-bottom: 10px;
+    color:#fff;
+   font-weight: bold;
+   font-size: 30px;
+    outline: none;
+}
+.search-area input::placeholder{
+   color:#fff;
+   font-weight: bold;
+   font-size: 30px;
+}
+.search-area i{
+    width: 5%;
+    min-height: 7vh;
+    color: #fff;
+    font-size: 30px;
+    background-color: green;
+    border-radius: 100px;
+    font-weight: bold;
+    border: none;
+    padding-top: 20px;
+    padding-left: 20px;
+}
+.search-area i:active{
+    color: yellow;
+}
+.search-area i:hover{
+    color: orange;
+    font-size: 30px;
+    background-color: #002fff;
+}
+.vidBorder{
+    border: 4px solid yellowgreen;
+}
+
+/* Style for the profile section */
+#Profile {
+    margin-bottom: 20px;
+    width: 93%;
+    min-height: 30vh;
+    border: 3px solid #002fff;
+    color: #000;
+    font-weight: bold;
+    display: none;
+
+}
+
+/* Style for the names container */
+.names {
+    display: flex;
+    align-items: center;
+}
+
+/* Style for the full name */
+.full-name {
+    margin: 0;
+    font-size: 20px;
+}
+
+/* Style for the user logo */
+.userlogo img {
+    width: 150px; /* Adjust the size as needed */
+    height: 150px; /* Adjust the size as needed */
+    border-radius: 30%; /* Make it circular */
+    margin-left: 400px; /* Add some space between the full name and the logo */
+    margin-top: 30px;
+    
+}
+.userlogo{
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+}
+.userlogo h1{
+    text-align: center;
+    margin-left: 400px;
+}
+section .user-info{
+    border-top: 2px solid #333;
+    width: 100%;
+    
+}
+.user-info p{
+    font-size: 30px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: transparent;
+    width: 90%;
+    margin-left: 20px;
+    padding-left: 20px;
+    color: #002fff;
+    border-bottom: 2px solid #333;
+}
+.user-info p button{
+    font-size: 30px;
+    background-color: #002fff;
+    color: #fff;
+    float: right;
+    border: none;
+    cursor: pointer;
+    margin-bottom: 10px;
+    transform: translateY(-10px);
+    width: 30%;
+    box-shadow: 20px 10px 30px black;
+}
+
+.user-info p button:hover{
+   background-color: green;
+   transition: 500ms;
+   border: 3px solid red;
+}
+dialog{
+   width: 80%;
+   height: 60vh;
+   border:3px solid#002fff;
+}
+
+dialog input{
+   width:60%;
+   height: auto;
+   border: none;
+   border-bottom: 3px solid #002fff;
+   margin-left: 20px;
+   outline: none;
+}
+dialog button{
+    background-color: #3498db;
+    background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
+    background-size: 200% 100%;
+    transition: background-position 2.0s;
+    color: #fff;
+    height: 5vh;
+    display: flex;
+    flex-direction: column; /* Arrange buttons vertically */
+    align-items: flex-end; /* Align buttons to the left */
+    font-size: 20px;
+}
+
+dialog button:hover{
+    background-position: -100% 0%;
+
+}
+dialog p{
+    font-size: 28px;
+    font-weight: bold;
+}
+.spinner {
+    width: 50px; /* Adjust the width and height as needed */
+    height: 50px;
+    border: 3px solid #f3f3f3; /* Light gray border */
+    border-top: 3px solid #3498db; /* Blue border on top */
+
+    border-radius: 50%; /* Makes it round */
+    animation: spin 1s linear infinite; /* Apply spin animation */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); } /* Start at 0 degree rotation */
+    100% { transform: rotate(360deg); } /* End at 360 degree rotation */
+  }
+/* For desktop: */
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+
+@media only screen and (max-width: 768px) {
+     /* For mobile phones: */
+    [class*="col-"] {
+         width: 100%;
+  }
+  
+    body{
+        font-size: 16px;
+        background-color: aqua;
+    }
+    header img {
+        width: 80%;
+    }
+
+    header .logon {
+        display: none;
+    }
+
+    nav {
+        width: 98%;
+        font-size: 18px;
+    }
+    nav ul li a {
+        font-size: 16px;
+    }
+
+    nav .home{
+        font-size: 14px;
+    }
+    nav .home p{
+        font-size: 14px;
+    }
+    .videos {
+        padding: 10px;
+    }
+
+    .video,
+    .video-new {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .video-new {
+        margin-left: 0;
+    }
+
+    .video .buttons button,
+    .video-new .buttons button {
+        font-size: 14px;
+    }
+
+    .video .buttons .views,
+    .video-new .buttons .views {
+        font-size: 16px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    body{
+        font-size: 16px;
+        background-color: lightblue;
+    }
+    nav{
+        width: 90%;
+        font-size: 12px;
+    }
+    nav .home p{
+        font-size: 12px;
+    }
+    nav ul li a {
+        font-size: 14px;
+    }
+
+    .video .buttons button,
+    .video-new .buttons button {
+        font-size: 14px;
+    }
+
+    .video .buttons .views,
+    .video-new .buttons .views {
+        font-size: 16px;
+    }
+    header img{
+        width: 40%;
+    }
+    .spinner {
+        width: 20px; /* Adjust the width and height as needed */
+        height: 20px;
+        border: 3px solid #f3f3f3; /* Light gray border */
+        border-top: 3px solid #3498db; /* Blue border on top */
+    
+        border-radius: 50%; /* Makes it round */
+        animation: spin 1s linear infinite; /* Apply spin animation */
+      }
+}
+
+@media only screen and (max-width: 420px) {
+    body{
+        font-size: 10px;
+        background-color: #3498db;
+    }
+    nav{
+        width: 80%;
+        font-size: 8px;
+        display: flex;
+        flex-direction: column;
+    }
+    nav .home p{
+        font-size: 8px;
+    }
+    nav ul li a {
+        font-size: 10px;
+    }
+
+    .video .buttons button,
+    .video-new .buttons button {
+        font-size: 8px;
+    }
+
+    .video .buttons .views,
+    .video-new .buttons .views {
+        font-size: 12px;
+    }
+    header img{
+        width: 40%;
+    }
+    .spinner {
+        display: none;
+      }
+    video{
+        width: 100%;
+    }
+    .video-new{
+        width: 90%;
+    }
+    .video-algo, .new-ads,.ad-setting,.profile-info{
+        margin-left:5px;
+        width:90%;
+        height: 8vh;
+        font-size: 16px;
+    }
+    .ad-setting{
+        font-size: 12px;
+        height: 7vh;
+    }
+    .ad-setting p{
+        font-size: 12px;
+        height: 7vh;
+    }
+    .profile-info{
+        font-size: 12px;
+        height: 7vh;
+    }
+    .video-new  .weblinks {
+        background-color: #002fff;
+        color: #fff;
+        width: 80%;
+        height: 4vh;
+        font-size: 16px;
+        
+    }
+    #loading-overlay p {
+        background-color:red;
+        font-size: 20px;
+        margin-right: -20px;
+        color: #fff;
+    }
+    .profile-info ul li a{
+        color: #fff;
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        margin-left: 9px;
+        margin-top: 11px;
+    }
+    .profile-info ul{
+        width: 90%;
+    }
+}

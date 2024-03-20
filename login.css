@@ -1,0 +1,119 @@
+body{
+    background-color: #3498db;
+    min-height: 100vh;
+    font-size: medium;
+    font-weight: bold;
+    color: azure;
+
+}
+
+h1{
+    text-align: center;
+    color: #1500ff;
+}
+h1 img{
+    width: 50px;
+    height: auto;
+    border-radius: 7%;
+}
+.container{
+    border: 5px outset #1ad61a;
+    margin-left: 400px;
+    width: 40%;
+    border-radius: 10px;
+    margin-top: 110px;
+   opacity: 0.7;
+   background-color: #1ad61a;
+   box-shadow: 20px 10px 20px black;
+}
+.container:hover{
+    /*transform: skew(0deg);*/
+    transition:ease  1000ms;
+}
+.container input{
+    background-color: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 3px solid yellow;
+    width: 80%;
+    margin-left: 50px;
+    font-size: 30px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    outline: none;
+    padding-left: 10px;
+    font-weight: bold;
+}
+.container input::placeholder{
+    color: #fff;
+    font-weight: bold;
+}
+.container p{
+    margin-left: 50px;
+    font-size: 20px;
+    color: red;
+    cursor: pointer;
+}
+.container button{
+    margin-left: 50px;
+    width: 80%;
+    font-size: 20px;
+    margin-bottom: 20px;
+    background-color: rgb(15, 170, 15);
+    color: #fff;
+}
+.container p a{
+    color: #1ad61a;
+    text-decoration: none;
+    cursor: pointer;
+}
+.container p a:hover{
+    color: #1ad61a;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.container p a:visited{
+    color: #1500ff;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 440px) {
+    body{
+        background-color: yellow;
+    }
+    .container{
+        border: 5px outset #2ecc71;
+        margin-left: 10px;
+        width: 60%;
+        border-radius: 10px;
+        margin-top: 100px;
+       background-color: #1ad61a;
+       box-shadow: 20px 10px 20px black;
+       margin-right: 600px;
+    }
+}
+
+@media only screen and (max-width: 386px) {
+    body{
+        background-color: #3498db;
+    }
+    .container{
+        border: 5px outset #2ecc71;
+        margin-left: 10px;
+        width: 90%;
+        border-radius: 10px;
+        margin-top: 100px;
+       background-color: #1ad61a;
+       box-shadow: 20px 10px 20px black;
+       margin-right: 600px;
+    }
+    .container input{
+        width: 80%;
+        font-size: 16px;
+    }
+    .container input::placeholder{
+        font-size: 16px;
+    }
+}

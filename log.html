@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <link rel="stylesheet" href="login.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Login form</h1>
+    <div class="container">
+        <input type="text" id='firstName' placeholder="Enter your First name" required>
+        <span id="correcto"></span>
+        <input type="text" id="SecondName" placeholder="Enter your Second name" required>
+        <span id="correctos"></span>
+        <input type="text" name="number" id="loginPhoneNumber" placeholder="Enter your phone-number" required>
+        <span id="correcto"></span>
+        <input type="text" name="user-id" id="idNumber" placeholder="Enter your ID number" required>
+        <span id="correcto"></span>
+        <input type="password" name="pass" id="loginPassword" placeholder="Enter your password" required>
+        <span id="correcto"></span>
+        <p>Forgot <a href="#">Password</a> ?</p>
+        <button onclick="login()">LOGIN</button>
+    </div>
+    <h1>Sign up here</h1>
+    <div class="container">
+        <input type="text" id="newFirstName" placeholder="Enter your first name" required>
+        <input type="text" id="newSecondName" placeholder="Enter your second name" required>
+        <input type="text" id="userId" placeholder="Enter your ID number" required>
+        <input type="text" id="new-number" placeholder="Enter your phone number" required>
+        <input type="password" id="password" placeholder="Enter your new password" required>
+        <input type="password" id="repass" placeholder="Re-enter your new password" required>
+        <p>Remember <a href="#" onclick="alert('okay wwe will remember you.')">Me</a> ?</p>
+        <button onclick="signUp()" id="signUp">SIGN UP</button>
+    </div>
+
+  <script src="log.js"></script>
+  <script src="test.js"></script>
+</body>
+</html>

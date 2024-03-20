@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="test.css">
+    <title>Ad Tube</title>
+</head>
+<body>
+    <!-- Loading Page Overlay -->
+    <div id="loading-overlay">
+        <!-- You can customize the loading spinner or message here -->
+        <div class="spinner"></div>
+        <br><br>
+        <p>Hold tight! Ad-miracles loading...</p>
+    </div>
+
+    <header>
+        <h1><img src="2024-03-15_12-32-15-removebg-preview.png" alt="" srcset="" class="logon"> <img src="Cool Text - AD tube 453657508178162.png" alt="header" srcset=""></h1>
+    </header>
+    <nav>
+        <div class="home">
+            <p><span class="Name" id="userName" onclick="toggleProfileVisibility()">Lorem Ipsum</span></p>
+            <p>Watch Hours : <span class="my-watchhours"></span> (seconds)</p>            
+        </div>
+        <ul>
+            <li class="toggle-video-algo"><a href="#" onclick="toggleVideoAlgo()"><i class="fas fa-play"></i> Videos</a></li>
+            <li class="toggle-new-ads"><a href="#" onclick="toggleNewAds()"><i class="fas fa-ad"></i > Search Ads</a></li>
+            <li class="toggle-user-profile"><a href="#" onclick="toggleUserProfile()"><i class="fas fa-user"></i> Profile</a></li>
+            <li class="toggle-ad-setting"><a href="#" onclick="toggleAdSetting()"><i class="fas fa-cog"></i> More</a></li>
+        </ul>
+    </nav>
+    <div class="video-algo">
+        <div class="container">
+            <div class="item">Home</div>
+            <div class="item">Product Advertising</div>
+            <div class="item">Brand Advertising</div>
+            <div class="item">Corporate Advertising</div>
+            <div class="item">Public Service Advertising (PSA)</div>
+            <div class="item">Retail Advertising</div>
+            <div class="item">B2B Advertising</div>
+            <div class="item">Celebrity Endorsements</div>
+            <div class="item">Event Sponsorship</div>
+            <div class="item">Non-videos Advertising</div>
+        </div>
+    </div>
+    <div class="new-ads">
+        <div class="search-area">   
+           <input placeholder="Search Ads here" name="adsearch" >
+           <i class="fas fa-search"></i>
+        </div>
+    </div>
+    <div class="profile-info">
+        <ul>
+            <li><a href="log.html"><i class="fas fa-user-plus"></i> Login/Signup</a></li>
+            <li><a href="#" onclick="document.getElementById('userProfile').showModal()"><i class="fas fa-user"> Profile</i></a></li>
+            <li><a href="#" onclick="document.getElementById('Terms&Condition').showModal()"><i class="fas fa-file-contract"></i> Terms & Conditions</i></a></li>
+            <li><a href="#"><i class="fas fa-desktop"> Studio</i></a></li>
+        </ul>
+
+    </div>
+    <div class="ad-setting">
+        <h1>See Users analytics <a href="userDetails.html">here</a></h1>
+    </div>
+    <div class="videos">
+        <section id="Profile">
+            <div class="names">
+                <div class="userlogo">
+                    <img src="2024-03-15_12-43-11-removebg-preview.png" alt="user profile">
+                    <h1>Full Name: <span id="FullNames">Ad Tube</span>.</h1>
+                    
+                </div> 
+            </div>
+            <div class="user-info">
+                <p>Full Name : <span id="nameVerify">Ad Tube</span>  <button onclick="document.getElementById('nameEditDialog').showModal()">Edit this information</button></p>
+                <p>Phone Number : <span></span>  <button onclick="document.getElementById('phoneEditDialog').showModal()">Edit this information</button></p>
+                <p>Watch Hours : <span class="my-watchhours"></span> (seconds)  <button onclick="document.getElementById('viewDetailsDialog').showModal()">View your information</button></p>
+                <p>Earnings : <span></span>  (Ksh.)<button>View your information</button></p>
+                <p>Withdraw : <span></span>  <button>View your information</button></p>
+                <p>Change Image : <span></span>  <button>Change your Photo</button></p>
+            </div>
+        </section>
+    </div>
+    <div class="offline-page"></div>
+    <!-- HTML for the edit dialog -->
+    <dialog id="nameEditDialog">
+        <form onsubmit="updateNames(); return false;">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName">
+          <label for="secondName">Second Name:</label>
+          <input type="text" id="secondName">
+          <button type="submit">Save</button>
+        </form>
+      </dialog>
+    
+    <dialog id="phoneEditDialog">
+        <form onsubmit="updatePhoneNumber(); return false;">
+          <label for="phoneNumber">Phone Number:</label>
+          <input type="text" id="phoneNumber">
+          <button type="submit">Save</button>
+        </form>
+      </dialog>
+    
+    <!-- HTML for the view dialog -->
+    <dialog id="viewDetailsDialog">
+        <!-- Add details here -->
+        <button onclick="closeDialog('viewDetailsDialog')">Cancel</button>
+    </dialog>
+    <dialog id="Terms&Condition">
+        <button onclick="closeDialog('Terms&Condition')">Close</button>
+        <p>
+                            <b>Terms and Conditions</b><br>
+                Welcome to [Website Name]! These terms and conditions ("Terms") govern your use of our website and services. By accessing or using our website, you agree to abide by these Terms. Please read them carefully.<br><br>
+                1. <b>User Registration and Accounts</b>
+                <br>
+                1.1. To access certain features or services, you may be required to create an account.<br>
+                1.2. You are responsible for maintaining the security of your account credentials and providing accurate information.<br><br>
+                2.<b> User Eligibility</b><br>
+                2.1. You must be of legal age or have parental consent to participate.<br>
+                2.2. You agree to comply with all applicable laws and regulations regarding your eligibility to use our services.<br><br>
+                3.   <b>Use of Services</b><br>
+                3.1. You are granted permission to access and use our services, including watching advertisements and earning money.<br>
+                3.2. Unauthorized access, misuse of accounts, or illegal activities are prohibited.<br><br>
+                4. <b>Advertising and Earnings</b><br>
+                4.1. By watching advertisements, you may earn money based on predetermined criteria.<br>
+                4.2. Any fees, commissions, or taxes associated with earning money on our platform will be disclosed to you.<br><br>
+                5.   <b>Intellectual Property</b><br>
+                5.1. All intellectual property, trademarks, and copyrighted materials on our website are owned by us or our licensors.<br>
+                5.2. You may not use, reproduce, or distribute our intellectual property without permission.<br><br>
+                6.   <b>Data Privacy</b><br>
+                6.1. We collect, store, and use your personal information in accordance with our Privacy Policy.<br>
+                6.2. Your privacy is important to us, and we will not share your personal information with third parties without your consent.<br><br>
+                7.  <b>User Conduct</b><br>
+                7.1. You agree to conduct yourself in a respectful and lawful manner while using our website.<br>
+                7.2. Offensive, abusive, or harmful behavior towards other users or our platform is strictly prohibited.<br><br>
+                8.   <b>Termination of Accounts</b><br>
+                8.1. We reserve the right to suspend or terminate your account for breaches of these Terms or for inactive accounts.<br>
+                8.2. You may request the termination of your account at any time by contacting us.<br><br>
+                9.   <b>Liability and Disclaimers</b>
+                9.1. We are not liable for any service interruptions, technical failures, or damages resulting from your use of our website.<br>
+                9.2. We make no warranties regarding the accuracy, reliability, or availability of services provided by third parties.<br><br>
+                10. <b> Updates and Amendments</b><br>
+                10.1. We may update or amend these Terms from time to time. Any changes will be notified to you through appropriate channels.<br><br>
+                11.  <b>Governing Law and Jurisdiction</b><br>
+                11.1. These Terms are governed by the laws of [Jurisdiction]. Any disputes arising from these Terms will be resolved in the courts of [Jurisdiction].<br><br>
+                12. <b>Contact Information</b><br>
+                12.1. If you have any questions or concerns regarding these Terms or our services, please contact us at [Contact Email].<br><br>
+
+        </p>
+    </dialog>
+    <dialog id="userProfile">
+        <button onclick="closeDialog('userProfile')">Close</button>
+        <p>First Name : <span id="fnameVerify">Ad Tube</span>  <button onclick="document.getElementById('nameEditDialog').showModal()">Edit this information</button></p>
+        <p>Second Name : <span id="snameVerify">Ad Tube</span>  <button onclick="document.getElementById('nameEditDialog').showModal()">Edit this information</button></p>
+        <p>Phone Number : <span id="Phoneverify"></span>  <button onclick="document.getElementById('phoneEditDialog').showModal()">Edit this information</button></p>
+        <p>Watch Hours : <span class="my-watchhours" onload="updateUserInfo();"></span> (seconds)  <button onclick="document.getElementById('viewDetailsDialog').showModal()">View your information</button></p>
+        <p>Earnings : <span></span>  (Ksh.)<button>View your information</button></p>
+        <p>Withdraw : <span></span>  <button>View your information</button></p>
+        <p>Change Image : <span></span>  <button>Change your Photo</button></p>
+        <button onclick="SaveInfo()">Save me</button>
+    </dialog>
+    <script src="test.js"></script>
+    <script src="log.js"></script>
+    <script>
+        // Function to check if the user is logged in by checking for the authentication cookie
+        function isLoggedIn() {
+            return document.cookie.includes('authToken='); // Check if the authentication cookie is present
+        }
+    
+        // If the user is not logged in, display a message after a delay
+        if (!isLoggedIn()) {
+            setTimeout(function() {
+                alert("You are not logged in. Please log in to access this page.");
+                // You can replace the alert with other UI elements like a modal or a banner
+            }, 120000); // 2 minutes delay (specified in milliseconds)
+        } else {
+            // Function to get user information from cookies
+            function getUserInfoFromCookies() {
+                const cookies = document.cookie.split('; ');
+                const userInfo = {};
+                cookies.forEach(cookie => {
+                    const [key, value] = cookie.split('=');
+                    userInfo[key] = value;
+                });
+                return userInfo;
+            }
+    
+            // Function to update user information in the HTML element
+            function updateUserInfo() {
+                const userInfo = getUserInfoFromCookies();
+                const userNameElement = document.getElementById('userName');
+                const watchHoursElement = document.querySelector('.my-watchhours');
+    
+                if (userNameElement && userInfo['firstName'] && userInfo['lastName']) {
+                    userNameElement.textContent = userInfo['firstName'] + ' ' + userInfo['lastName'];
+                }
+    
+                if (watchHoursElement) {
+                    watchHoursElement.textContent = userInfo['watchHours'] || '0';
+                }
+            }
+    
+            // Call the function to update user information
+            updateUserInfo();
+        }
+    </script>
+    
+    
+    
+    
+</body>
+</html>
+ 
