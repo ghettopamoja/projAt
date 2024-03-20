@@ -773,6 +773,14 @@ dialog p{
         font-size: 12px;
         height: 7vh;
     }
+    .profile-info ul li a{
+        font-size: 12px;
+        
+    }
+    .profile-info ul{
+        font-size: 12px;
+        height: 3vh;
+    }
     .video-new  .weblinks {
         background-color: #002fff;
         color: #fff;
