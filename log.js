@@ -117,6 +117,9 @@ function signUp() {
           .then(() => {
               alert('User signed up successfully.');
               clearInputFields();
+
+              localStorage.setItem('currentUser', JSON.stringify(newUser));
+               
               // Redirect to index.html after signup
               window.location.href = 'index.html';
           })
@@ -199,9 +202,9 @@ function login() {
               document.cookie = 'loggedIn=true; path=/'; // Set the cookie to be valid for the entire domain
 
               // After successful login, store user data in localStorage
-              localStorage.setItem('firstName', user['First Name']);
-              localStorage.setItem('lastName', user['Second Name']);
-              localStorage.setItem('watchHours', user['Watch Hours']);
+              // Assuming 'user' is an object containing user data
+              localStorage.setItem('currentUser', JSON.stringify(user));
+
               
               displayUserWatchHours();
               
@@ -217,4 +220,3 @@ function login() {
           alert('Error reading user data:', error);
       });
 }
-
