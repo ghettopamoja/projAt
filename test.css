@@ -727,7 +727,7 @@ dialog p{
     }
     nav{
         width: 80%;
-        font-size: 8px;
+        font-size: 9px;
         display: flex;
         flex-direction: column;
     }
@@ -741,6 +741,7 @@ dialog p{
     .video .buttons button,
     .video-new .buttons button {
         font-size: 8px;
+        margin-left: -10px;
     }
 
     .video .buttons .views,
