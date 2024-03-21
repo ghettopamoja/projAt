@@ -171,47 +171,70 @@
     <script src="test.js"></script>
     <script src="log.js"></script>
     <script>
-        // Function to check if the user is logged in by checking for the authentication cookie
-        function isLoggedIn() {
-            return document.cookie.includes('authToken='); // Check if the authentication cookie is present
+       function isLoggedIn() {
+            // Check if currentUser data exists in localStorage
+            const currentUser = localStorage.getItem('currentUser');
+            return !!currentUser; // Return true if currentUser exists, false otherwise
         }
-    
-        // If the user is not logged in, display a message after a delay
+
+        function isDefaultUser() {
+            // Retrieve currentUser data from localStorage
+            const currentUser = localStorage.getItem('currentUser');
+            if (currentUser) {
+                // Parse currentUser data to check if it matches the default user's data
+                const defaultUser = {
+                    "First Name": "Lorem",
+                    "Second Name": "Ipsum",
+                    "Phone number": "0000000000",
+                    "Password": "defaultpassword",
+                    "ID number": "00000000",
+                    "User Unique Number": "000000",
+                    "User watch hours": "0"
+                };
+                return JSON.stringify(defaultUser) === currentUser; // Compare currentUser with defaultUser
+            }
+            return false; // Return false if currentUser does not exist
+        }
+
+        // Example usage:
         if (!isLoggedIn()) {
             setTimeout(function() {
                 alert("You are not logged in. Please log in to access this page.");
                 // You can replace the alert with other UI elements like a modal or a banner
             }, 120000); // 2 minutes delay (specified in milliseconds)
         } else {
-            // Function to get user information from cookies
-            function getUserInfoFromCookies() {
-                const cookies = document.cookie.split('; ');
-                const userInfo = {};
-                cookies.forEach(cookie => {
-                    const [key, value] = cookie.split('=');
-                    userInfo[key] = value;
-                });
-                return userInfo;
+            if (isDefaultUser()) {
+                // User is the default user
+                console.log("User is the default user.");
+            } else {
+                // User is logged in with a non-default account
+                console.log("User is logged in with a non-default account.");
             }
-    
-            // Function to update user information in the HTML element
-            function updateUserInfo() {
-                const userInfo = getUserInfoFromCookies();
-                const userNameElement = document.getElementById('userName');
-                const watchHoursElement = document.querySelector('.my-watchhours');
-    
-                if (userNameElement && userInfo['firstName'] && userInfo['lastName']) {
-                    userNameElement.textContent = userInfo['firstName'] + ' ' + userInfo['lastName'];
-                }
-    
-                if (watchHoursElement) {
-                    watchHoursElement.textContent = userInfo['watchHours'] || '0';
-                }
-            }
-    
-            // Call the function to update user information
-            updateUserInfo();
         }
+
+
+    
+    // Function to update user information in the HTML element
+function updateUserInfo() {
+    const currentUserData = localStorage.getItem('currentUser');
+    const userNameElement = document.getElementById('userName');
+    const watchHoursElement = document.querySelector('.my-watchhours');
+
+    if (currentUserData) {
+        const currentUser = JSON.parse(currentUserData);
+        if (userNameElement && currentUser['First Name'] && currentUser['Second Name']) {
+            userNameElement.textContent = currentUser['First Name'] + ' ' + currentUser['Second Name'];
+        }
+
+        if (watchHoursElement) {
+            watchHoursElement.textContent = currentUser['User watch hours'] || '0';
+        }
+    }
+}
+
+// Call the function to update user information
+updateUserInfo();
+
     </script>
     
     
