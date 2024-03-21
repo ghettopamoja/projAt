@@ -330,6 +330,22 @@ async function createVideos(videosData, ) {
                 playButton.disabled = true; // Disable the play button to prevent further plays
             }
         });
+        
+         // Add event listener to play button
+         playButton.addEventListener('click', async function() {
+            const user = getCurrentUser();
+            if (user) {
+                // User is logged in, allow video playback
+                await handleVideoPlayback(videoElement, playButton);
+            } else {
+                // User is not logged in, show dialog box for login/signup
+                const isLoggedIn = await showLoginSignupDialog();
+                if (isLoggedIn) {
+                    // User logged in, allow video playback
+                    await handleVideoPlayback(videoElement, playButton);
+                }
+            }
+        });
 
 
         buttonsDiv.appendChild(playButton);
@@ -418,6 +434,61 @@ async function createVideosFromJSON(jsonFile) {
     } catch (error) {
         alert('Error fetching or parsing JSON:', error);
     }
+}
+
+
+async function handleVideoPlayback(videoElement, playButton) {
+    const user = getCurrentUser();
+    const videoId = extractVideoIdFromElement(videoElement);
+    const limit = 3; // Assuming you have a play count limit
+
+    if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
+        trackVideoProgress(videoElement);
+        playVideo(videoElement, playButton);
+        playTracker.incrementPlayCount(user, videoId); // Increment play count
+    } else {
+        alert('You have exceeded the play count limit for this video.');
+        playButton.disabled = true; // Disable the play button to prevent further plays
+    }
+}
+
+async function showLoginSignupDialog() {
+    return new Promise((resolve) => {
+        // Create dialog elements
+        const dialogOverlay = document.createElement('div');
+        dialogOverlay.classList.add('dialog-overlay');
+
+        const dialogBox = document.createElement('div');
+        dialogBox.classList.add('dialog-box');
+
+        const message = document.createElement('p');
+        message.textContent = 'Please log in or sign up to access this content.';
+
+        const loginButton = document.createElement('button');
+        loginButton.textContent = 'Log In';
+        loginButton.addEventListener('click', () => {
+            // Redirect to log.html on login button click
+            window.location.href = 'log.html';
+        });
+
+        const cancelButton = document.createElement('button');
+        cancelButton.textContent = 'Cancel';
+        cancelButton.addEventListener('click', () => {
+            // Resolve the promise with false if user cancels
+            resolve(false);
+            // Remove dialog elements
+            dialogOverlay.remove();
+        });
+
+        // Append elements to dialog box
+        dialogBox.appendChild(message);
+        dialogBox.appendChild(loginButton);
+        dialogBox.appendChild(cancelButton);
+
+        // Append dialog box to body
+        document.body.appendChild(dialogOverlay);
+        document.body.appendChild(dialogBox);
+    });
 }
 
 
