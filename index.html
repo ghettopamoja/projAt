@@ -53,7 +53,7 @@
     </div>
     <div class="profile-info">
         <ul>
-            <li><a href="log.html"><i class="fas fa-user-plus"></i> Login/Signup</a></li>
+            <li><a href="#" onclick="document.getElementById('SignOut').showModal()"><i class="fas fa-user-plus"></i> Login/Signup</a></li>
             <li><a href="#" onclick="document.getElementById('userProfile').showModal()"><i class="fas fa-user"> Profile</i></a></li>
             <li><a href="#" onclick="document.getElementById('Terms&Condition').showModal()"><i class="fas fa-file-contract"></i> Terms & Conditions</i></a></li>
             <li><a href="#"><i class="fas fa-desktop"> Studio</i></a></li>
@@ -159,6 +159,14 @@
         <p>Withdraw : <span></span>  <button>View your information</button></p>
         <p>Change Image : <span></span>  <button>Change your Photo</button></p>
         <button onclick="SaveInfo()">Save me</button>
+    </dialog>
+
+    <dialog id="SignOut">
+        <h1>Do you wish to Logout ? </h1>
+        <button onclick="logOut()">LogOut and Stay</button>
+        <p>OR</p>
+        <button onclick="redirect()">LogOut go to Signup</button>
+        <button onclick="closeDialog('SignOut')">Cancel</button>
     </dialog>
     <script src="test.js"></script>
     <script src="log.js"></script>
