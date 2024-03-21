@@ -1,3 +1,28 @@
+// Function to set default user details in localStorage
+function setDefaultUser() {
+    const defaultUser = {
+        firstName: "Lorem",
+        lastName: "Ipsum",
+        watchHours: "0" // Adjust other properties as needed
+    };
+
+    localStorage.setItem('currentUser', JSON.stringify(defaultUser));
+}
+
+// Function to check if a user is logged in during page load or reload
+function checkUserOnLoad() {
+    const currentUser = localStorage.getItem('currentUser');
+    if (!currentUser) {
+        // No user is logged in, set default user
+        setDefaultUser();
+    }
+}
+
+// Call the checkUserOnLoad function when the page loads or reloads
+window.addEventListener('load', checkUserOnLoad);
+
+
+
 // Function to update user information in HTML elements
 function updateUserInfo() {
     // Retrieve user information from localStorage
@@ -209,7 +234,27 @@ function getCurrentUser() {
     }
 }
 
+function logOut() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+        // If no user is logged in, set the default user
+        const defaultUser = {
+            "First Name": "Lorem",
+            "Second Name": "Ipsum",
+            "Phone number": "0000000000",
+            "Password": "defaultpassword",
+            "ID number": "00000000",
+            "User Unique Number": "000000",
+            "User watch hours": "0"
+        };
+        localStorage.setItem('currentUser', JSON.stringify(defaultUser));
 
+    }
+}
+ function redirect() {
+    window.location.href = "log.html"
+ }
+ 
 function storeViewCount(videoId, viewCount) {
     // Construct a key for the view count of the video
     const key = `video_${videoId}_views`;
@@ -525,7 +570,7 @@ window.onload = async function() {
     
     setTimeout(() => {
         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
-    }, 2000);
+    }, 5000);
 }
 
 // Function to fetch user data from JSON file
