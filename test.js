@@ -667,7 +667,7 @@ items.forEach(function(item) {
                     showLoadingOverlay(); // Show the loading overlay immediately
                     setTimeout(() => {
                         const category = item.textContent;
-                        loadVideos(category, userData);
+                        loadVideos(category);
                       setTimeout(() => {
                         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
                     }, 8000);
@@ -815,7 +815,7 @@ window.addEventListener('offline', function(event) {
     alert("You are offline.");
 });
 
-function loadVideos(category, userData) {
+function loadVideos(category) {
     fetch('videos.json')
         .then(response => {
             if (!response.ok) {
@@ -828,17 +828,13 @@ function loadVideos(category, userData) {
             // Filter videos based on the category
             const filteredVideos = data.filter(video => video.category === category);
             // Create videos based on the filtered data
-            filteredVideos.forEach(video => {
-                createVideos(userData, [video]); // Pass userData and individual video data
-            });
+            createVideos(filteredVideos); // Pass only the filtered videos data
         })
         .catch(error => {
             console.error('Error fetching videos:', error);
             alert(error);
         });
 }
-
-
 
 
 
