@@ -359,7 +359,7 @@ video  {
 }
 
 .new-ads{
-    background-color: purple;
+    background-color: #2ecc71;
     width: 90%;
     margin-left: 70px;
     min-height: 10vh;
@@ -368,21 +368,24 @@ video  {
 }
 
 .ad-setting{
-    background-color: green;
+    background-color: #2ecc71;
     width: 90%;
     margin-left: 70px;
-    min-height: 10vh;
+    color: #fff;
+    min-height: 7vh;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    font-size: 16px;
     display: none;
 }
 .profile-info{
-    background-color: #3498db;
+    background-color: #2ecc71;
     background-image: linear-gradient(to right, #3498db 0%, #3498db 50%, #2ecc71 50%, #2ecc71 100%);
     background-size: 200% 100%;
     transition: background-position 2.0s;
     width: 90%;
     margin-left: 70px;
-    min-height: 10vh;
+    min-height: 7vh;
+    font-size: 16px;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
     display: none;
 }
@@ -696,11 +699,13 @@ dialog p{
     .video .buttons button,
     .video-new .buttons button {
         font-size: 14px;
+        margin: auto;
     }
 
     .video .buttons .views,
     .video-new .buttons .views {
-        font-size: 16px;
+        font-size: 12px;
+        margin: auto;
     }
     header img{
         width: 40%;
@@ -741,7 +746,7 @@ dialog p{
 
     .video .buttons .views,
     .video-new .buttons .views {
-        font-size: 12px;
+        font-size: 7px;
     }
     header img{
         width: 40%;
@@ -782,11 +787,11 @@ dialog p{
         height: 3vh;
     }
     .video-new  .weblinks {
-        background-color: #002fff;
+        background-color: #2ecc71;
         color: #fff;
         width: 80%;
         height: 4vh;
-        font-size: 16px;
+        font-size: 8px;
         
     }
     #loading-overlay p {
