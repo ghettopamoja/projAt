@@ -254,7 +254,7 @@ function logOut() {
  function redirect() {
     window.location.href = "log.html"
  }
- 
+
 function storeViewCount(videoId, viewCount) {
     // Construct a key for the view count of the video
     const key = `video_${videoId}_views`;
@@ -348,20 +348,29 @@ async function createVideos(videosData, ) {
         buttonsDiv.classList.add('buttons');
         let isPlaying = false;
 
-        // Add event listeners
-        const playButton = document.createElement('button');
-        playButton.classList.add('play-button');
-        playButton.innerHTML = '<i class="fas fa-play"></i>';
-        playButton.addEventListener('click', function() {
-            const user = getCurrentUser(); // Assuming you have a way to retrieve the current user
-            const videoId = videoData.videoId; // Assuming you have access to the video ID
-            const limit = 3; // Assuming you have a play count limit
+       const playButton = document.createElement('button');
+       playButton.classList.add('play-button');
+       playButton.innerHTML = '<i class="fas fa-play"></i>';
+       playButton.addEventListener('click', async function() {
+            const user = getCurrentUser(); // Retrieve the current user
+            const videoId = videoData.videoId; // Retrieve the video ID
+            const limit = 3; // Set the play count limit
+            if (!user) {
+                videoElement.pause(); // Pause the video
+                // User is not logged in, show dialog box for login/signup
+                const isLoggedIn = await showLoginSignupDialog();
+                if (!isLoggedIn) {
+                    return; // If user cancels or closes the dialog, do not proceed
+                }
+            }            
+
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
+                // User is logged in or signed up, and play count limit is not exceeded
                 trackVideoProgress(videoElement);
                 if (!isPlaying) {
                     playVideo(videoElement, playButton);
                     videoDiv.style.backgroundColor = "#2ecc71";
-                    updatePlayButtonIcon(playButton, true); 
+                    updatePlayButtonIcon(playButton, true);
                     isPlaying = true;
                 } else {
                     pauseVideo(videoElement, playButton);
@@ -371,24 +380,9 @@ async function createVideos(videosData, ) {
                 }
                 playTracker.incrementPlayCount(user, videoId); // Increment play count
             } else {
+                // User has exceeded the play count limit for this video
                 alert('You have exceeded the play count limit for this video.');
                 playButton.disabled = true; // Disable the play button to prevent further plays
-            }
-        });
-        
-         // Add event listener to play button
-         playButton.addEventListener('click', async function() {
-            const user = getCurrentUser();
-            if (user) {
-                // User is logged in, allow video playback
-                await handleVideoPlayback(videoElement, playButton);
-            } else {
-                // User is not logged in, show dialog box for login/signup
-                const isLoggedIn = await showLoginSignupDialog();
-                if (isLoggedIn) {
-                    // User logged in, allow video playback
-                    await handleVideoPlayback(videoElement, playButton);
-                }
             }
         });
 
