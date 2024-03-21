@@ -789,10 +789,18 @@ dialog p{
     .video-new  .weblinks {
         background-color: #2ecc71;
         color: #fff;
-        width: 80%;
+        width: 90%;
         height: 4vh;
         font-size: 8px;
         
+    }
+    .video-new  .weblinks h2 {
+        color: #fff;
+        font-size: 14px;
+        
+    }
+    .video-new .buttons input{
+        width: 20%;
     }
     #loading-overlay p {
         background-color:red;
@@ -804,7 +812,7 @@ dialog p{
         color: #fff;
         text-decoration: none;
         font-weight: bold;
-        font-size: 14px;
+        font-size: 8px;
         margin-left: 9px;
         margin-top: 11px;
     }
