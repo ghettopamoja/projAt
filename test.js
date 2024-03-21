@@ -267,9 +267,7 @@ async function createVideos(videosData, ) {
     videosData.forEach(async (videoData, index) => {
         const videoDiv = document.createElement('div');
         videoDiv.classList.add('video-new');
-        const vidImage = document.createElement("img");
-        vidImage.src = videoData.thumbnail;
-        videoDiv.appendChild(vidImage);
+        
         const videoElement = document.createElement('video');
         videoElement.classList.add('myvideo');
         videoElement.src = videoData.url;
@@ -310,7 +308,6 @@ async function createVideos(videosData, ) {
         playButton.classList.add('play-button');
         playButton.innerHTML = '<i class="fas fa-play"></i>';
         playButton.addEventListener('click', function() {
-            videoDiv.removeChild(vidImage);
             const user = getCurrentUser(); // Assuming you have a way to retrieve the current user
             const videoId = videoData.videoId; // Assuming you have access to the video ID
             const limit = 3; // Assuming you have a play count limit
@@ -319,8 +316,7 @@ async function createVideos(videosData, ) {
                 if (!isPlaying) {
                     playVideo(videoElement, playButton);
                     videoDiv.style.backgroundColor = "#2ecc71";
-                    updatePlayButtonIcon(playButton, true);
-                    
+                    updatePlayButtonIcon(playButton, true); 
                     isPlaying = true;
                 } else {
                     pauseVideo(videoElement, playButton);
