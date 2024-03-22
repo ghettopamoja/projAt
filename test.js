@@ -163,15 +163,6 @@ function toggleAdSetting() {
     }
 }
 
-function toggleProfileVisibility() {
-    const profileSection = document.getElementById('Profile');
-    if (profileSection.style.display === 'block') {
-        hideProfile();
-    } else {
-        userprofile();
-    }
-}
-
 
 function hideProfile() {
     // Hide the profile section
@@ -447,7 +438,7 @@ async function createVideos(videosData) {
         playButton.innerHTML = '<i class="fas fa-play"></i>';
         playButton.addEventListener('click', async function() {
             await handleVideoInteraction(videoElement, this, videoData);         
-            user = getUser();
+            user = getCurrentUser();
             const videoId = videoData.videoId;
             const limit  = 3;
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
