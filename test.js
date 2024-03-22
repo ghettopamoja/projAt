@@ -444,7 +444,7 @@ async function createVideos(videosData) {
        playButton.classList.add('play-button');
        playButton.innerHTML = '<i class="fas fa-play"></i>';
        playButton.addEventListener('click', async function() {
-            await handlePlayButtonClick(videoData);          
+            await handlePlayButtonClick(videoElement, this, videoData);         
 
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
@@ -538,10 +538,10 @@ async function createVideos(videosData) {
     });
 }
 
-async function handlePlayButtonClick(videoData) {
+async function handlePlayButtonClick(videoElement, playButton, videoData) {
     // Now you can use videoData in this function
     const user = getCurrentUser(); // Retrieve the current user
-    const videoId = videoData.videoId // Retrieve the video ID
+    const videoId = videoData.videoId; // Retrieve the video ID
     const limit = 3; // Set the play count limit
 
     if (user && user.firstName === "Lorem" && user.lastName === "Ipsum") {
@@ -565,11 +565,11 @@ async function handlePlayButtonClick(videoData) {
         trackVideoProgress(videoElement);
         if (!isPlaying) {
             playVideo(videoElement); // Assuming playButton is already handled elsewhere
-            videoDiv.style.backgroundColor = "#2ecc71";
+            playButton.style.backgroundColor = "#2ecc71";
             isPlaying = true;
         } else {
             pauseVideo(videoElement); // Assuming playButton is already handled elsewhere
-            videoDiv.style.backgroundColor = "#fff";
+            playButton.style.backgroundColor = "#fff";
             isPlaying = false;
         }
         playTracker.incrementPlayCount(user, videoId); // Increment play count
@@ -577,10 +577,11 @@ async function handlePlayButtonClick(videoData) {
         // User has exceeded the play count limit for this video
         alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
         // Disable the play button to prevent further plays
-         playButton.disabled = true; // Assuming playButton is already handled elsewhere
-         playButton.style.backgroundColor = "red";
+        playButton.disabled = true; // Assuming playButton is already handled elsewhere
+        playButton.style.backgroundColor = "red";
     }
 }
+
 
 async function createVideosFromJSON(jsonFile) {
     try {
@@ -1113,6 +1114,4 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
 
