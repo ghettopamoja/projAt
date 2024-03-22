@@ -444,7 +444,7 @@ async function createVideos(videosData) {
        playButton.classList.add('play-button');
        playButton.innerHTML = '<i class="fas fa-play"></i>';
        playButton.addEventListener('click', async function() {
-            await handlePlayButtonClick(videoElement, this, videoData);         
+            await handleVideoInteraction(videoElement, this, videoData);         
 
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
@@ -538,13 +538,12 @@ async function createVideos(videosData) {
     });
 }
 
-async function handlePlayButtonClick(videoElement, playButton, videoData) {
-    // Now you can use videoData in this function
+async function handleVideoInteraction(videoElement,  videoData) {
     const user = getCurrentUser(); // Retrieve the current user
     const videoId = videoData.videoId; // Retrieve the video ID
     const limit = 3; // Set the play count limit
 
-    if (user && user.firstName === "Lorem" && user.lastName === "Ipsum") {
+    if (user.firstName === "Lorem" && user.lastName === "Ipsum") {
         alert(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
     }
 
@@ -558,29 +557,8 @@ async function handlePlayButtonClick(videoElement, playButton, videoData) {
             videoElement.play(); // Resume video playback
             return; // If user cancels or closes the dialog, do not proceed
         }
-    }            
-
-    if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
-        let isPlaying = false;
-        // User is logged in or signed up, and play count limit is not exceeded
-        trackVideoProgress(videoElement);
-        if (!isPlaying) {
-            playVideo(videoElement); // Assuming playButton is already handled elsewhere
-            playButton.style.backgroundColor = "#2ecc71";
-            isPlaying = true;
-        } else {
-            pauseVideo(videoElement); // Assuming playButton is already handled elsewhere
-            playButton.style.backgroundColor = "#fff";
-            isPlaying = false;
-        }
-        playTracker.incrementPlayCount(user, videoId); // Increment play count
-    } else {
-        // User has exceeded the play count limit for this video
-        alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
-        // Disable the play button to prevent further plays
-        playButton.disabled = true; // Assuming playButton is already handled elsewhere
-        playButton.style.backgroundColor = "red";
     }
+
 }
 
 
@@ -594,21 +572,6 @@ async function createVideosFromJSON(jsonFile) {
     }
 }
 
-
-async function handleVideoPlayback(videoElement, playButton) {
-    const user = getCurrentUser();
-    const videoId = extractVideoIdFromElement(videoElement);
-    const limit = 3; // Assuming you have a play count limit
-
-    if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
-        trackVideoProgress(videoElement);
-        playVideo(videoElement, playButton);
-        playTracker.incrementPlayCount(user, videoId); // Increment play count
-    } else {
-        alert('You have exceeded the play count limit for this video.');
-        playButton.disabled = true; // Disable the play button to prevent further plays
-    }
-}
 
 async function showLoginSignupDialog() {
     return new Promise((resolve) => {
@@ -963,7 +926,7 @@ function loadVideos(category) {
 
 
 let totalWatchHours = 0;
-let lastUpdateTime = 0;
+let lastUpdateTime = 0; // Declare lastUpdateTime as a global variable
 
 function trackVideoProgress(videoElement) {
     const myWatchView = document.querySelector('.my-watchhours');
@@ -986,6 +949,7 @@ function trackVideoProgress(videoElement) {
         }
     });
 }
+
 
 
 function updateUserWatchHoursInUserData(watchHours) {
@@ -1115,6 +1079,3 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
-
