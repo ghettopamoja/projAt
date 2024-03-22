@@ -487,7 +487,7 @@ async function createVideos(videosData) {
         volumeSlider.setAttribute('min', '0');
         volumeSlider.setAttribute('max', '100');
         volumeSlider.setAttribute('step', '5');
-        volumeSlider.setAttribute('value', '20'); // Initial volume
+        volumeSlider.setAttribute('value', '10'); // Initial volume
         volumeSlider.addEventListener('input', function() {
             videoElement.volume = volumeSlider.value;
         });
@@ -540,8 +540,6 @@ async function createVideos(videosData) {
 
 async function handleVideoInteraction(videoElement,  videoData) {
     const user = getCurrentUser(); // Retrieve the current user
-    const videoId = videoData.videoId; // Retrieve the video ID
-    const limit = 3; // Set the play count limit
 
     if (user.firstName === "Lorem" && user.lastName === "Ipsum") {
         alert(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
@@ -1079,3 +1077,6 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
+
+
+
