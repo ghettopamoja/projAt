@@ -14,10 +14,11 @@ header {
     padding-bottom: 10vw;
     margin-bottom: 10px; 
     height: 20vh;   
+    min-height: 30vh;
 }
 header img{
     width: 30%;
-    height: auto;
+    height: 20vh;
 }
 header .logon{
     width: 10%; 
@@ -748,8 +749,12 @@ dialog p{
     .video-new .buttons .views {
         font-size: 7px;
     }
+    header{
+         height: 15vh;
+    }
     header img{
-        width: 40%;
+        width: 20%;
+        min-height: 10vh;
     }
     .spinner {
         display: none;
