@@ -11,25 +11,6 @@ function isValidUserId(userId) {
 }
 
 
-function restrictToNumbers(inputFieldId) {
-    const inputField = document.getElementById(inputFieldId);
-    if (inputField) {
-        inputField.addEventListener('input', function(event) {
-            const currentValue = event.target.value;
-            const numericValue = currentValue.replace(/\D/g, '');
-            event.target.value = numericValue;
-        });
-    } else {
-        console.error(`Element with ID '${inputFieldId}' not found.`);
-    }
-}
-
-
-restrictToNumbers('idNumber');
-restrictToNumbers('loginPhoneNumber');
-
-restrictToNumbers('new-number');
-restrictToNumbers('userId');
 
 function capitalizeFirstLetter(input) {
     // Check if the input is not empty
