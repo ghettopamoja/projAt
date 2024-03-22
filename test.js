@@ -561,6 +561,7 @@ async function handlePlayButtonClick(videoElement, playButton, videoData) {
     }            
 
     if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
+        let isPlaying = false;
         // User is logged in or signed up, and play count limit is not exceeded
         trackVideoProgress(videoElement);
         if (!isPlaying) {
@@ -1114,4 +1115,6 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
+
+
 
