@@ -252,28 +252,12 @@ function pauseVideo(video, button) {
     
 }
 
+// Function to increment the view count for the video
 function incrementViewCount(video) {
-    const videoId = video.id;
-    
-    // Fetch the user data
-    fetch('userData.json')
-        .then(response => response.json())
-        .then(userData => {
-            // Extract the current user information
-            const currentUser = getCurrentUser(userData);
-            const playCount = getPlayCount(currentUser, videoId);
-            
-            // Check if the play count is less than or equal to 3
-            if (playCount <= 3) {
-                // Increment the view count for the video
-                const viewsSpan = video.closest('.video-new').querySelector('.views span');
-                viewsSpan.textContent = parseInt(viewsSpan.textContent) + 1;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching user data:', error);
-        });
+    const viewsSpan = video.closest('.video-new').querySelector('.views span');
+    viewsSpan.textContent = parseInt(viewsSpan.textContent) + 1;
 }
+
 
 // Function to extract the current user information
 function getCurrentUser() {
@@ -496,7 +480,6 @@ async function createVideos(videosData) {
         viewsDiv.innerHTML = '<i class="fas fa-eye"></i> <span>0</span>';
         let viewCount = 0;
         videoElement.addEventListener("ended", function() {
-            videoDiv.appendChild(vidImage);
             playButton.innerHTML = '<i class="fas fa-play"></i>';
             playButton.style.backgroundColor = "green";
            // videoElement.pause();
@@ -904,7 +887,6 @@ function loadVideos(category) {
             return response.json();
         })
         .then(data => {
-            console.log('Videos data:', data);
             // Filter videos based on the category
             const filteredVideos = data.filter(video => video.category === category);
             // Create videos based on the filtered data
@@ -934,9 +916,6 @@ function trackVideoProgress(videoElement) {
 
             // Update watch hours in local storage
             localStorage.setItem('watchHours', totalWatchHours.toFixed(2));
-
-            // Update watch hours in userData.json
-            updateWatchHoursInUserData(totalWatchHours.toFixed(2));
 
             lastUpdateTime = currentTime; // Update last update time
         }
