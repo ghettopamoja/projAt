@@ -12,10 +12,17 @@ header {
     text-align: center;
     padding-top: 5vw;
     padding-bottom: 10vw;
-    margin-bottom: 10px; 
-    height: 20vh;   
-    min-height: 30vh;
+    margin-bottom: 10px;   
+    min-height: 20vh;
+    animation: changeBackground 15s infinite;
 }
+@keyframes changeBackground {
+    0% { background-image: url('2024-03-15_12-32-15-removebg-preview.png'); }
+    50% { background-image: url('2024-03-15_12-43-11-removebg-preview.png'); }
+    100% { background-image: url('2024-03-15_11-10-09.png'); }
+    
+}
+
 header img{
     width: 30%;
     height: 20vh;
@@ -753,7 +760,7 @@ dialog p{
          height: 15vh;
     }
     header img{
-        width: 20%;
+        width: 50%;
         min-height: 10vh;
     }
     .spinner {
@@ -801,7 +808,7 @@ dialog p{
     }
     .video-new  .weblinks h2 {
         color: #fff;
-        font-size: 14px;
+        font-size: 12px;
         
     }
     .video-new .buttons input{
@@ -809,7 +816,7 @@ dialog p{
     }
     #loading-overlay p {
         background-color:red;
-        font-size: 20px;
+        font-size: 25px;
         margin-right: -20px;
         color: #fff;
     }
@@ -817,7 +824,7 @@ dialog p{
         color: #fff;
         text-decoration: none;
         font-weight: bold;
-        font-size: 8px;
+        font-size: 10px;
         margin-left: 9px;
         margin-top: 11px;
     }
