@@ -757,11 +757,11 @@ dialog p{
         font-size: 7px;
     }
     header{
-         height: 15vh;
+         height: 13vh;
+         background-image: url('2024-03-15_12-43-11-removebg-preview.png');
     }
     header img{
-        width: 50%;
-        min-height: 10vh;
+        display: none;
     }
     .spinner {
         display: none;
