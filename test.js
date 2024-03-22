@@ -1,3 +1,5 @@
+let user;
+
 // Function to set default user details in localStorage
 function setDefaultUser() {
     const defaultUser = {
@@ -439,13 +441,15 @@ async function createVideos(videosData) {
         const buttonsDiv = document.createElement('div');
         buttonsDiv.classList.add('buttons');
         let isPlaying = false;
-
-       const playButton = document.createElement('button');
-       playButton.classList.add('play-button');
-       playButton.innerHTML = '<i class="fas fa-play"></i>';
-       playButton.addEventListener('click', async function() {
+       
+        const playButton = document.createElement('button');
+        playButton.classList.add('play-button');
+        playButton.innerHTML = '<i class="fas fa-play"></i>';
+        playButton.addEventListener('click', async function() {
             await handleVideoInteraction(videoElement, this, videoData);         
-
+            user = getUser();
+            const videoId = videoData.videoId;
+            const limit  = 3;
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
                 trackVideoProgress(videoElement);
@@ -539,7 +543,7 @@ async function createVideos(videosData) {
 }
 
 async function handleVideoInteraction(videoElement,  videoData) {
-    const user = getCurrentUser(); // Retrieve the current user
+    user = getCurrentUser(); // Retrieve the current user
 
     if (user.firstName === "Lorem" && user.lastName === "Ipsum") {
         alert(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
@@ -964,7 +968,7 @@ function updateUserWatchHoursInUserData(watchHours) {
         .then(response => response.json())
         .then(userData => {
             // Find the user in the userData array
-            const user = userData.find(user => user['ID number'] === userId);
+            user = userData.find(user => user['ID number'] === userId);
 
             // If the user exists, update their watch hours
             if (user) {
