@@ -17,12 +17,12 @@
     </div>
 
     <header>
-        <h1><img src="2024-03-15_12-32-15-removebg-preview.png" alt="" srcset="" class="logon"> <img src="Cool Text - AD tube 453657508178162.png" alt="header" srcset=""></h1>
+        <h1><img src="2024-03-15_12-32-15-removebg-preview.png" alt="" srcset="" class="logon" onclick="reloadPage()"> <img src="Cool Text - AD tube 453657508178162.png" alt="header" srcset=""></h1>
     </header>
     <nav>
         <div class="home">
-            <p><span class="Name" id="userName" onclick="toggleProfileVisibility()"> </span></p>
-            <p>Watch Hours : <span class="my-watchhours"></span> (in hours)</p>            
+            <p><span class="Name" id="userName" onmouseover="displayUserWatchHours();" onclick="reloadPage()"> </span></p>
+            <p>Watch Hours : <span class="my-watchhours"></span> (in seconds)</p>            
         </div>
         <ul>
             <li class="toggle-video-algo"><a href="#" onclick="toggleVideoAlgo()"><i class="fas fa-play"></i> Videos</a></li>
@@ -170,6 +170,11 @@
     <script src="test.js"></script>
     <script src="log.js"></script>
     <script>
+        function reloadPage() {
+            window.location.reload();
+        }
+
+
         function isLoggedIn() {
             // Check if currentUser data exists in localStorage
             const currentUser = localStorage.getItem('currentUser');
