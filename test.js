@@ -529,10 +529,6 @@ async function createVideos(videosData) {
         likeButton.addEventListener('click', function() {
             toggleLike(likeButton);
         });
-
-        starButton.addEventListener('click', function() {
-            toggleStar(starButton);
-        });
         
         videoDiv.appendChild(videoElement);
         videoDiv.appendChild(videoTitle);
@@ -1117,3 +1113,6 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
+
+
+
