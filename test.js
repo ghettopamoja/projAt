@@ -1113,6 +1113,3 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
-
