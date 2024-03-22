@@ -1,8 +1,3 @@
-// Function to generate a unique number
-function generateUniqueNumber() {
-    // Generate a timestamp-based unique number
-    return Date.now().toString();
-}
   
   // Function to validate phone number format
 function validatePhoneNumber(phoneNumber) {
@@ -171,7 +166,6 @@ function isValidUserId(userId) {
   return idRegex.test(userId);
 }
 
-// Function to generate a unique number
 // Array to store used unique numbers
 const usedUniqueNumbers = [];
 
@@ -179,8 +173,14 @@ const usedUniqueNumbers = [];
 function generateUniqueNumber() {
     let uniqueNumber;
     do {
+        // Generate a timestamp-based unique number
+        uniqueNumber = Date.now().toString();
+        
         // Generate a random number
-        uniqueNumber = Math.floor(Math.random() * 1000000);
+        const randomNumber = Math.floor(Math.random() * 1000000);
+        
+        // Append the random number to the timestamp-based unique number
+        uniqueNumber += randomNumber;
     } while (usedUniqueNumbers.includes(uniqueNumber)); // Keep generating until a unique number is found
 
     // Add the unique number to the list of used numbers
@@ -188,6 +188,7 @@ function generateUniqueNumber() {
 
     return uniqueNumber;
 }
+
 
 
 // Function to clear input fields after sign-up
