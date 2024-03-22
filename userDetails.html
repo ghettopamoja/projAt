@@ -13,6 +13,7 @@
             padding: 10px; /* Add padding for spacing */
             margin-bottom: 10px; /* Add margin between user details */
             box-sizing: 10px 2px 10px #333;
+            box-shadow: 1px 2px 3px 4px rgba(12,12,12,0.2);
         }
         @media only screen and (max-width: 420px){
             body{
@@ -33,22 +34,7 @@
     </div>
 
     <script>
-        // Function to dynamically create and append the watch hours element
-        function createWatchHoursElement(userDiv, watchHours) {
-            // Check if watchHours is a valid number
-            if (typeof watchHours === 'number' && !isNaN(watchHours)) {
-                // Create a p element
-                const watchHoursElement = document.createElement('p');
-                watchHoursElement.classList.add('my-watchhours'); // Add class to p element
-                watchHoursElement.textContent = `Watch Hours: ${watchHours.toFixed(2)}`; // Set text content
-                // Append p element to userDiv
-                userDiv.appendChild(watchHoursElement);
-            } else {
-                console.error('Invalid watch hours value:', watchHours);
-            }
-        }
-
-
+        
         // Function to display user details
         function displayUserDetails(userData) {
             const userDetailsContainer = document.getElementById('user-details'); // Get container element
@@ -64,7 +50,7 @@
 
                 // Display username
                 const username = document.createElement('p');
-                username.textContent = `Username: ${user['First Name']} ${user['Second Name']}`;
+                username.textContent = `Username: ${user['First Name']} ${user['Last Name']}`;
                 userDiv.appendChild(username);
 
                 // Display partial ID number (first two and last three digits)
@@ -80,10 +66,10 @@
                 userDiv.appendChild(phoneNumber);
 
                 // Display watch hours
+                const watchingHours = document.createElement('h2');
                 const watchHours = user['User watch hours']; // Assuming watch hours are provided in userData
-
-                // Append watch hours element to user details
-                createWatchHoursElement(userDiv, watchHours);
+                watchingHours.textContent = watchHours;
+                userDiv.appendChild(watchingHours);
 
                 // Add the user details div to the container
                 userDetailsContainer.appendChild(userDiv);
