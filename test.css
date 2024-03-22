@@ -14,7 +14,7 @@ header {
     padding-bottom: 10vw;
     margin-bottom: 10px;   
     min-height: 20vh;
-    animation: changeBackground 15s infinite;
+    animation: changeBackground 30s infinite;
 }
 @keyframes changeBackground {
     0% { background-image: url('2024-03-15_12-32-15-removebg-preview.png'); }
