@@ -390,7 +390,6 @@ async function createVideos(videosData) {
         const videoElement = document.createElement('video');
         videoElement.classList.add('myvideo');
         videoElement.src = videoData.url;
-        videoElement.poster = videoData.posterUrl;
         videoElement.alt = videoData.title;
         videoElement.setAttribute('id', `video-${videoData.videoId}`); // Assign a unique ID
         
@@ -445,7 +444,7 @@ async function createVideos(videosData) {
        playButton.classList.add('play-button');
        playButton.innerHTML = '<i class="fas fa-play"></i>';
        playButton.addEventListener('click', async function() {
-          await handlePlayButtonClick()           
+            await handlePlayButtonClick(videoData);          
 
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
@@ -539,9 +538,10 @@ async function createVideos(videosData) {
     });
 }
 
-async function handlePlayButtonClick() {
+async function handlePlayButtonClick(videoData) {
+    // Now you can use videoData in this function
     const user = getCurrentUser(); // Retrieve the current user
-    const videoId = videoData.videoId; // Retrieve the video ID
+    const videoId = videoData.videoId // Retrieve the video ID
     const limit = 3; // Set the play count limit
 
     if (user && user.firstName === "Lorem" && user.lastName === "Ipsum") {
@@ -1113,3 +1113,6 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
+
+
+
