@@ -72,7 +72,7 @@
                     
                 </div> 
             </div>
-            <div class="user-info">
+            <div class="user-info" onload="updateUserInfo()">
                 <p>Full Name : <span id="nameVerify">Ad Tube</span>  <button onclick="document.getElementById('nameEditDialog').showModal()">Edit this information</button></p>
                 <p>Phone Number : <span></span>  <button onclick="document.getElementById('phoneEditDialog').showModal()">Edit this information</button></p>
                 <p>Watch Hours : <span class="my-watchhours"></span> (seconds)  <button onclick="document.getElementById('viewDetailsDialog').showModal()">View your information</button></p>
@@ -162,21 +162,21 @@
     </dialog>
 
     <dialog id="SignOut">
-        <h1>Do you wish to Logout ? </h1>
-        <button onclick="logOut()">LogOut and Stay</button>
+        <h1>Do you wish to ...  </h1>
+        <button onclick="setDefaultUserIfNoUserLoggedIn(); closeDialog('SignOut')">LogOut and Stay ?</button>
         <p>OR</p>
-        <button onclick="redirect()">LogOut go to Signup</button>
+        <button onclick="redirect()">LogOut go to Signup ?</button>
         <button onclick="closeDialog('SignOut')">Cancel</button>
     </dialog>
     <script src="test.js"></script>
     <script src="log.js"></script>
     <script>
-       function isLoggedIn() {
+        function isLoggedIn() {
             // Check if currentUser data exists in localStorage
             const currentUser = localStorage.getItem('currentUser');
             return !!currentUser; // Return true if currentUser exists, false otherwise
         }
-
+    
         function isDefaultUser() {
             // Retrieve currentUser data from localStorage
             const currentUser = localStorage.getItem('currentUser');
@@ -184,7 +184,7 @@
                 // Parse currentUser data to check if it matches the default user's data
                 const defaultUser = {
                     "First Name": "Lorem",
-                    "Second Name": "Ipsum",
+                    "Last Name": "Ipsum",
                     "Phone number": "0000000000",
                     "Password": "defaultpassword",
                     "ID number": "00000000",
@@ -195,51 +195,16 @@
             }
             return false; // Return false if currentUser does not exist
         }
-
-        // Example usage:
-        if (!isLoggedIn()) {
+    
+        // Check if the user is not logged in or is the default user
+        if (!isLoggedIn() || isDefaultUser()) {
+            // Set a timeout to display the alert after 2 minutes (120000 milliseconds)
             setTimeout(function() {
-                alert("You are not logged in. Please log in to access this page.");
-                // You can replace the alert with other UI elements like a modal or a banner
-            }, 120000); // 2 minutes delay (specified in milliseconds)
-        } else {
-            if (isDefaultUser()) {
-                // User is the default user
-                console.log("User is the default user.");
-            } else {
-                // User is logged in with a non-default account
-                console.log("User is logged in with a non-default account.");
-            }
+                alert("You are using the default account. Please log in or sign up for more services.");
+            }, 120000); // 2 minutes delay
         }
-
-
-    
-    // Function to update user information in the HTML element
-function updateUserInfo() {
-    const currentUserData = localStorage.getItem('currentUser');
-    const userNameElement = document.getElementById('userName');
-    const watchHoursElement = document.querySelector('.my-watchhours');
-
-    if (currentUserData) {
-        const currentUser = JSON.parse(currentUserData);
-        if (userNameElement && currentUser['First Name'] && currentUser['Second Name']) {
-            userNameElement.textContent = currentUser['First Name'] + ' ' + currentUser['Second Name'];
-        }
-
-        if (watchHoursElement) {
-            watchHoursElement.textContent = currentUser['User watch hours'] || '0';
-        }
-    }
-}
-
-// Call the function to update user information
-updateUserInfo();
-
     </script>
-    
-    
-    
-    
+       
 </body>
 </html>
  
