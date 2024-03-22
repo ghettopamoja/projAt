@@ -42,95 +42,112 @@ function capitalizeFirstLetter(input) {
 }
   
 function signUp() {
-  const newFirstName = document.getElementById('newFirstName').value;
-  const newSecondName = document.getElementById('newSecondName').value;
-  const newPhoneNumber = document.getElementById('new-number').value;
-  const newPassword = document.getElementById('password').value;
-  const newRePassword = document.getElementById('repass').value;
-  const userId = document.getElementById('userId').value; // Use lowercase variable name
+    const newFirstName = document.getElementById('newFirstName').value;
+    const newSecondName = document.getElementById('newSecondName').value;
+    const newPhoneNumber = document.getElementById('new-number').value;
+    const newPassword = document.getElementById('password').value;
+    const newRePassword = document.getElementById('repass').value;
+    const userId = document.getElementById('userId').value; // Use lowercase variable name
+    
+    // Capitalize the first letter of the first name and second name
+    const capitalizedFirstName = capitalizeFirstLetter(newFirstName);
+    const capitalizedSecondName = capitalizeFirstLetter(newSecondName);
+    
+    // Validate phone number
+    if (!validatePhoneNumber(newPhoneNumber)) {
+        alert('Invalid phone number. Please enter a 10-digit numeric value.');
+        return;
+    }
+    
+    // Check if passwords match
+    if (newPassword !== newRePassword) {
+        alert('Passwords do not match. Please re-enter your password.');
+        return;
+    }
   
-  // Capitalize the first letter of the first name and second name
-  const capitalizedFirstName = capitalizeFirstLetter(newFirstName);
-  const capitalizedSecondName = capitalizeFirstLetter(newSecondName);
+    // Check if the user ID is valid
+    if (!isValidUserId(userId)) {
+        alert('User ID must be 8 digits long and contain only numbers.');
+        return;
+    }
+    
+    const birthdayDate = getNewBirthdayDate();
+    const day = birthdayDate.day;
+    const month = birthdayDate.month;
   
-  // Validate phone number
-  if (!validatePhoneNumber(newPhoneNumber)) {
-      alert('Invalid phone number. Please enter a 10-digit numeric value.');
-      return;
+    // Read existing user data from JSON file
+    fetch('userData.json')
+        .then(response => response.json())
+        .then(data => {
+            // Check if the phone number already exists in userData.json
+            const phoneNumberExists = data.some(user => user['Phone number'] === newPhoneNumber);
+            if (phoneNumberExists) {
+                alert('Phone number already exists. Please choose a different one.');
+                return;
+            }
+            
+            // Check if the ID number already exists in userData.json
+            const idExists = data.some(user => user['ID number'] === userId);
+            if (idExists) {
+                alert('ID number already exists. Please choose a different one.');
+                return;
+            }
+            
+            // Generate unique number
+            const uniqueNumber = generateUniqueNumber();
+            
+            // Construct newUser object with day and month
+            const newUser = {
+                "First Name": capitalizedFirstName,
+                "Last Name": capitalizedSecondName,
+                "Phone number": newPhoneNumber,
+                "Password": newPassword,
+                "ID number": userId,
+                "User Unique Number": uniqueNumber,
+                "User watch hours": 0, // Initialize watch hours
+                "BirthdayDay": day,
+                "BirthdayMonth": month
+            };
+            
+            // Add new user to existing data
+            data.push(newUser);
+            
+            // Write updated data back to JSON file
+            fetch('userData.json', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                alert('User signed up successfully.');
+                clearInputFields();
+  
+                const currentUserData = {
+                    firstName: newUser["First Name"],
+                    lastName: newUser["Last Name"],
+                    watchHours: newUser["User watch hours"],
+                    birthdayDay: newUser["BirthdayDay"], // Add birthday day
+                    birthdayMonth: newUser["BirthdayMonth"], // Add birthday month
+                    IdNumber : newUser['ID number']
+                };
+                
+                // Store the currentUserData object in localStorage
+                localStorage.setItem("currentUser", JSON.stringify(currentUserData));
+                 
+                // Redirect to index.html after signup
+                window.location.href = 'index.html';
+            })
+            .catch(error => {
+                alert('Error signing up user: ' + error.message);
+            });
+        })
+        .catch(error => {
+            alert('Error reading user data: ' + error.message);
+        });
   }
   
-  // Check if passwords match
-  if (newPassword !== newRePassword) {
-      alert('Passwords do not match. Please re-enter your password.');
-      return;
-  }
-
-  // Check if the user ID is valid
-  if (!isValidUserId(userId)) {
-      alert('User ID must be 8 digits long and contain only numbers.');
-      return;
-  }
-
-  // Read existing user data from JSON file
-  fetch('userData.json')
-      .then(response => response.json())
-      .then(data => {
-          // Check if the phone number already exists in userData.json
-          const phoneNumberExists = data.some(user => user['Phone number'] === newPhoneNumber);
-          if (phoneNumberExists) {
-              alert('Phone number already exists. Please choose a different one.');
-              return;
-          }
-          
-          // Check if the ID number already exists in userData.json
-          const idExists = data.some(user => user['ID number'] === userId);
-          if (idExists) {
-              alert('ID number already exists. Please choose a different one.');
-              return;
-          }
-          
-          // Generate unique number
-          const uniqueNumber = generateUniqueNumber();
-          
-          // Construct newUser object
-          const newUser = {
-              "First Name": capitalizedFirstName,
-              "Second Name": capitalizedSecondName,
-              "Phone number": newPhoneNumber,
-              "Password": newPassword,
-              "ID number": userId,
-              "User Unique Number": uniqueNumber,
-              "User watch hours": 0 // Initialize watch hours
-          };
-          
-          // Add new user to existing data
-          data.push(newUser);
-          
-          // Write updated data back to JSON file
-          fetch('userData.json', {
-              method: 'PUT',
-              headers: {
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-          })
-          .then(() => {
-              alert('User signed up successfully.');
-              clearInputFields();
-
-              localStorage.setItem('currentUser', JSON.stringify(newUser));
-               
-              // Redirect to index.html after signup
-              window.location.href = 'index.html';
-          })
-          .catch(error => {
-              alert('Error signing up user: ' + error.message);
-          });
-      })
-      .catch(error => {
-          alert('Error reading user data: ' + error.message);
-      });
-}
 
 // Function to capitalize the first letter of a string
 function capitalizeFirstLetter(string) {
@@ -201,15 +218,23 @@ function login() {
               // Set a cookie to indicate the user is logged in
               document.cookie = 'loggedIn=true; path=/'; // Set the cookie to be valid for the entire domain
 
-              // After successful login, store user data in localStorage
-              // Assuming 'user' is an object containing user data
-              localStorage.setItem('currentUser', JSON.stringify(user));
-
-              
-              displayUserWatchHours();
-              
-              // Redirect to homepage
-              window.location.href = 'index.html';
+              const currentUser = {
+                firstName: user['First Name'],
+                lastName: user['Last Name'],
+                watchHours: user['User watch hours'],
+                birthdayDay: user["BirthdayDay"], // Add birthday day
+                birthdayMonth: user["BirthdayMonth"], // Add birthday month
+                IdNumber : user['ID number']
+            };
+        
+            // Store the currentUser object in localStorage
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Call the function to wish birthday
+            wishBirthday();
+                            
+            // Redirect to homepage
+            window.location.href = 'index.html';
 
           } else {
               alert('Login failed. Invalid username or phone number or password.');
@@ -220,3 +245,48 @@ function login() {
           alert('Error reading user data:', error);
       });
 }
+
+function getNewBirthdayDate() {
+    const inputDate = document.getElementById('newDate');
+    const dateString = inputDate.value;
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1; // Month is 0-indexed, so add 1
+    return { day: day, month: month };
+}
+
+
+// Function to retrieve the user's birthday day and month
+function getBirthdayDate() {
+    const currentUserData = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUserData && currentUserData.BirthdayDay && currentUserData.BirthdayMonth) {
+        return {
+            day: currentUserData.BirthdayDay,
+            month: currentUserData.BirthdayMonth
+        };
+    }
+    return null; // Return null if birthday data is not available
+}
+
+// Function to wish happy birthday if the current date matches the user's birthday
+function wishBirthday() {
+    const birthdayDate = getBirthdayDate();
+    if (!birthdayDate) {
+        console.log("Birthday information not found.");
+        return;
+    }
+
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonth = today.getMonth() + 1; // Month is zero-based
+
+    if (currentDay === birthdayDate.day && currentMonth === birthdayDate.month) {
+        // User's birthday matches the current date
+        alert("Happy Birthday!");
+    } else {
+        alert("Enjoy Your Day !");
+    }
+}
+
+
+
