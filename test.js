@@ -3,7 +3,7 @@ function setDefaultUser() {
     const defaultUser = {
         firstName: "Lorem",
         lastName: "Ipsum",
-        watchHours: "0" // Adjust other properties as needed
+        watchHours: 0 // Adjust other properties as needed
     };
 
     localStorage.setItem('currentUser', JSON.stringify(defaultUser));
@@ -11,24 +11,88 @@ function setDefaultUser() {
 
 // Function to check if a user is logged in during page load or reload
 function checkUserOnLoad() {
-    const currentUser = localStorage.getItem('currentUser');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
         // No user is logged in, set default user
         setDefaultUser();
+    } else {
+        // User is logged in
+        alert(`Welcome, ${currentUser.firstName} ${currentUser.lastName}.`);
+
+        // Check if it's the user's birthday
+        const today = new Date();
+        const userBirthday = new Date(today.getFullYear(), currentUser.birthdayMonth - 1, currentUser.birthdayDay);
+        if (userBirthday.getDate() === today.getDate() && userBirthday.getMonth() === today.getMonth()) {
+            alert(`Happy birthday, ${currentUser.firstName} ${currentUser.lastName}!`);
+        }
+        else {
+            // User hasn't provided their birthday, display a generic message
+            alert(`Enjoy your day, ${currentUser.firstName} ${currentUser.lastName}!`);
+        }
     }
 }
 
-// Call the checkUserOnLoad function when the page loads or reloads
-window.addEventListener('load', checkUserOnLoad);
 
+function detectTodayDate() {
+    const today = new Date();
+    const day = today.getDate();
+    const month = today.getMonth() + 1; // Month is 0-indexed, so add 1
+    console.log("Today's Day:", day);
+    console.log("Today's Month:", month);
+    alert(`Today is ${today}`);
+}
 
+// Function to retrieve the user's birthday day and month
+function getBirthdayDate() {
+    const currentUserData = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUserData && currentUserData.BirthdayDay && currentUserData.BirthdayMonth) {
+        return {
+            day: currentUserData.BirthdayDay,
+            month: currentUserData.BirthdayMonth
+        };
+    }
+    return null; // Return null if birthday data is not available
+}
+
+// Function to wish happy birthday if the current date matches the user's birthday
+function wishBirthday() {
+    const birthdayDate = getBirthdayDate();
+    if (!birthdayDate) {
+        console.log("Birthday information not found.");
+        return;
+    }
+
+    const today = new Date();
+    const currentDay = today.getDate();
+    const currentMonth = today.getMonth() + 1; // Month is zero-based
+
+    if (currentDay === birthdayDate.day && currentMonth === birthdayDate.month) {
+        // User's birthday matches the current date
+        alert("Happy Birthday!");
+    } else {
+        alert("Enjoy your day!");
+    }
+}
+
+// Call the function to wish birthday
+wishBirthday();
 
 // Function to update user information in HTML elements
 function updateUserInfo() {
-    // Retrieve user information from localStorage
-    const firstName = localStorage.getItem('firstName');
-    const lastName = localStorage.getItem('lastName');
-    const watchHours = localStorage.getItem('watchHours');
+    let firstName, lastName, watchHours;
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    // Check if currentUser exists in localStorage
+    if (currentUser) {
+        firstName = currentUser.firstName;
+        lastName = currentUser.lastName;
+        watchHours = parseInt(currentUser.watchHours);
+    } else {
+        // If currentUser does not exist, use default user
+        firstName = "Lorem";
+        lastName = "Ipsum";
+        watchHours = 0;
+    }
 
     // Update HTML elements with user information
     const userNameElement = document.getElementById('userName');
@@ -39,9 +103,10 @@ function updateUserInfo() {
     }
 
     if (watchHoursElement) {
-        watchHoursElement.textContent = watchHours || '0';
+        watchHoursElement.textContent = watchHours;
     }
 }
+
 
 
 function toggleVideoAlgo() {
@@ -220,7 +285,7 @@ function incrementViewCount(video) {
 // Function to extract the current user information
 function getCurrentUser() {
     const firstName = localStorage.getItem('firstName');
-    const lastName = localStorage.getItem('lastName');
+    const lastName = localStorage.getItem('lastName'); // Corrected 'Second Name' to 'Last Name'
     const watchHours = localStorage.getItem('watchHours');
 
     if (firstName && lastName) {
@@ -230,17 +295,26 @@ function getCurrentUser() {
             watchHours: watchHours || '0'
         };
     } else {
-        return null; // Return null if user data is not found
+        // Set default user and return it
+        setDefaultUserIfNoUserLoggedIn();
+        return {
+            firstName: "Lorem",
+            lastName: "Ipsum",
+            watchHours: 0
+        };
     }
 }
 
-function logOut() {
+
+// Logging the result of getCurrentUser function
+console.log(getCurrentUser());
+
+function setDefaultUserIfNoUserLoggedIn() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    if (currentUser) {
-        // If no user is logged in, set the default user
+    if (!currentUser) { // If no user is logged in, set the default user
         const defaultUser = {
             "First Name": "Lorem",
-            "Second Name": "Ipsum",
+            "Last Name": "Ipsum",
             "Phone number": "0000000000",
             "Password": "defaultpassword",
             "ID number": "00000000",
@@ -248,11 +322,11 @@ function logOut() {
             "User watch hours": "0"
         };
         localStorage.setItem('currentUser', JSON.stringify(defaultUser));
-
     }
 }
+
  function redirect() {
-    window.location.href = "log.html"
+    window.location.href = "log.html";
  }
 
 function storeViewCount(videoId, viewCount) {
@@ -304,9 +378,9 @@ function getVideoElementWithIdAttribute(videoId) {
 }
 
 let isSeekAllowed = false;
-let currentTimeBeforeSeek = 0;
+let currentTimeBeforeSeek;
 
-async function createVideos(videosData, ) {
+async function createVideos(videosData) {
     const videosContainer = document.querySelector('.videos');
     
     videosData.forEach(async (videoData, index) => {
@@ -333,8 +407,27 @@ async function createVideos(videosData, ) {
                 videoElement.pause(); // Pause the video
             }
         });
+        
+        videoElement.addEventListener('seeked', function() {
+            if (!isSeekAllowed) {
+                videoElement.currentTime = currentTimeBeforeSeek; // Set current time back to what it was before seeking
+                videoElement.play(); // Resume playing the video
+            }
+        });
     
+        videoElement.addEventListener('waiting', function() {
+            // Handle the waiting event, such as showing a loading indicator or message
+            showLoadingOverlay();
+            console.log('Video is waiting for data to load...');
+        });
 
+
+        videoElement.addEventListener('playing', function() {
+            // Handle the waiting event, such as showing a loading indicator or message
+            hideLoadingOverlay();
+            console.log('Video is waiting for data to load...');
+        });
+        
         const videoTitle = document.createElement('h2');
         videoTitle.textContent = videoData.title;
 
@@ -352,17 +445,7 @@ async function createVideos(videosData, ) {
        playButton.classList.add('play-button');
        playButton.innerHTML = '<i class="fas fa-play"></i>';
        playButton.addEventListener('click', async function() {
-            const user = getCurrentUser(); // Retrieve the current user
-            const videoId = videoData.videoId; // Retrieve the video ID
-            const limit = 3; // Set the play count limit
-            if (!user) {
-                videoElement.pause(); // Pause the video
-                // User is not logged in, show dialog box for login/signup
-                const isLoggedIn = await showLoginSignupDialog();
-                if (!isLoggedIn) {
-                    return; // If user cancels or closes the dialog, do not proceed
-                }
-            }            
+          await handlePlayButtonClick()           
 
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
@@ -381,8 +464,9 @@ async function createVideos(videosData, ) {
                 playTracker.incrementPlayCount(user, videoId); // Increment play count
             } else {
                 // User has exceeded the play count limit for this video
-                alert('You have exceeded the play count limit for this video.');
+                alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
                 playButton.disabled = true; // Disable the play button to prevent further plays
+                playButton.style.backgroundColor = "red";
             }
         });
 
@@ -413,10 +497,6 @@ async function createVideos(videosData, ) {
         likeButton.classList.add('like-button');
         likeButton.innerHTML = '<i class="fas fa-thumbs-up"></i>';
 
-        const starButton = document.createElement('button');
-        starButton.classList.add('star-button');
-        starButton.innerHTML = '<i class="fas fa-star"></i>';
-
         const viewsDiv = document.createElement('div');
         viewsDiv.classList.add('views');
         viewsDiv.innerHTML = '<i class="fas fa-eye"></i> <span>0</span>';
@@ -425,7 +505,7 @@ async function createVideos(videosData, ) {
             videoDiv.appendChild(vidImage);
             playButton.innerHTML = '<i class="fas fa-play"></i>';
             playButton.style.backgroundColor = "green";
-            videoElement.pause();
+           // videoElement.pause();
             videoElement.currentTime = 0;
             videoDiv.style.backgroundColor = "#fff";
             viewCount++;
@@ -444,7 +524,6 @@ async function createVideos(videosData, ) {
         buttonsDiv.appendChild(volumeIcon);
         buttonsDiv.appendChild(volumeSlider);
         buttonsDiv.appendChild(likeButton);
-        buttonsDiv.appendChild(starButton);
         buttonsDiv.appendChild(viewsDiv);    
 
         likeButton.addEventListener('click', function() {
@@ -464,6 +543,48 @@ async function createVideos(videosData, ) {
     });
 }
 
+async function handlePlayButtonClick() {
+    const user = getCurrentUser(); // Retrieve the current user
+    const videoId = videoData.videoId; // Retrieve the video ID
+    const limit = 3; // Set the play count limit
+
+    if (user && user.firstName === "Lorem" && user.lastName === "Ipsum") {
+        alert(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
+    }
+
+    if (!user) {
+        videoElement.pause(); // Pause the video
+        // User is not logged in, show dialog box for login/signup
+        const isLoggedIn = await showLoginSignupDialog();
+        if (!isLoggedIn) {
+            // Set default user and resume video playback
+            setDefaultUserIfNoUserLoggedIn();
+            videoElement.play(); // Resume video playback
+            return; // If user cancels or closes the dialog, do not proceed
+        }
+    }            
+
+    if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
+        // User is logged in or signed up, and play count limit is not exceeded
+        trackVideoProgress(videoElement);
+        if (!isPlaying) {
+            playVideo(videoElement); // Assuming playButton is already handled elsewhere
+            videoDiv.style.backgroundColor = "#2ecc71";
+            isPlaying = true;
+        } else {
+            pauseVideo(videoElement); // Assuming playButton is already handled elsewhere
+            videoDiv.style.backgroundColor = "#fff";
+            isPlaying = false;
+        }
+        playTracker.incrementPlayCount(user, videoId); // Increment play count
+    } else {
+        // User has exceeded the play count limit for this video
+        alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
+        // Disable the play button to prevent further plays
+         playButton.disabled = true; // Assuming playButton is already handled elsewhere
+         playButton.style.backgroundColor = "red";
+    }
+}
 
 async function createVideosFromJSON(jsonFile) {
     try {
@@ -552,6 +673,7 @@ async function generateRandomVideos(jsonFile, count) {
 
 window.onload = async function() {
     showLoadingOverlay(); // Show the loading overlay immediately
+    checkUserOnLoad();
     updateUserInfo();
     // Generate random videos
     const response = await fetch('videos.json');
@@ -563,7 +685,7 @@ window.onload = async function() {
     createVideos(randomVideos);
     
     setTimeout(() => {
-        hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
+        hideLoadingOverlay(); // Hide the loading overlay after 5000 milliseconds
     }, 5000);
 }
 
@@ -636,9 +758,7 @@ const playTracker = new PlayTracker();
 function toggleLike(button) {
     button.classList.toggle('clicked');
 }
-function toggleStar(button) {
-    button.classList.toggle('stared');
-}
+
 function toggleVolume() {
     var video = document.getElementById("myVideo");
     video.muted = !video.muted;
@@ -692,8 +812,8 @@ items.forEach(function(item) {
                     createVideosFromJSON('videos.json');
                     setTimeout(() => {
                         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
-                    }, 2000);
-                }, 1000);
+                    }, 3000);
+                }, 2000);
                 break;
                 case 'Product Advertising':
                 case 'Brand Advertising':
@@ -750,9 +870,6 @@ function createNonVideoItem(imageSrc, title, websiteLink) {
         </div>
     </div>`;
 }
-
-
-
 
 // Function to show the loading overlay
 function showLoadingOverlay() {
@@ -812,45 +929,15 @@ function savePhone() {
 }
 
 
-
-// Function to create the offline page
-function createOfflinePage() {
-    // Create the offline page container
-    const offlinePage = document.createElement('div');
-    offlinePage.classList.add('offline-page');
-
-    // Create the headline
-    const headline = document.createElement('h1');
-    headline.textContent = "Oops! You're offline.";
-
-    // Create the paragraph for checking internet connection
-    const checkConnection = document.createElement('p');
-    checkConnection.textContent = "Please check your internet connection and try again.";
-
-    // Create the paragraph for contacting support
-    const contactSupport = document.createElement('p');
-    contactSupport.textContent = "If you believe this is an error, please contact support.";
-
-    // Append elements to the offline page
-    offlinePage.appendChild(headline);
-    offlinePage.appendChild(checkConnection);
-    offlinePage.appendChild(contactSupport);
-
-    // Append the offline page to the body
-    document.body.appendChild(offlinePage);
-}
-
-// Call the function to create the offline page
-
-
 window.addEventListener('online', function(event) {
     // Handle online event
     alert("You are online.");
+    hideLoadingOverlay();
 });
 
 window.addEventListener('offline', function(event) {
     // Handle offline event
-    createOfflinePage();
+    showLoadingOverlay();
     alert("You are offline.");
 });
 
@@ -878,13 +965,17 @@ function loadVideos(category) {
 
 
 let totalWatchHours = 0;
+let lastUpdateTime = 0;
 
 function trackVideoProgress(videoElement) {
     const myWatchView = document.querySelector('.my-watchhours');
 
     videoElement.addEventListener('timeupdate', function() {
-        if (!videoElement.paused && !videoElement.ended) {
-            totalWatchHours += videoElement.currentTime - (videoElement.totalTime || 0);
+        const currentTime = videoElement.currentTime;
+        const deltaTime = currentTime - lastUpdateTime;
+
+        if (!videoElement.paused && !videoElement.ended && deltaTime > 0) {
+            totalWatchHours += deltaTime; // Increment watch hours by time elapsed
             myWatchView.textContent = totalWatchHours.toFixed(2);
 
             // Update watch hours in local storage
@@ -892,22 +983,32 @@ function trackVideoProgress(videoElement) {
 
             // Update watch hours in userData.json
             updateWatchHoursInUserData(totalWatchHours.toFixed(2));
+
+            lastUpdateTime = currentTime; // Update last update time
         }
-        videoElement.totalTime = videoElement.currentTime;
     });
 }
 
-function updateUserWatchHoursInUserData(userId, watchHours) {
+
+function updateUserWatchHoursInUserData(watchHours) {
+    // Retrieve the current user's ID number from local storage
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser || !currentUser['IdNumber']) {
+        console.error('Current user or user ID not found in local storage');
+        return;
+    }
+    const userId = currentUser['IdNumber'];
+
     // Fetch the userData.json from the server or local storage
     fetch('userData.json')
         .then(response => response.json())
         .then(userData => {
             // Find the user in the userData array
-            const userIndex = userData.findIndex(user => user['ID number'] === userId);
+            const user = userData.find(user => user['ID number'] === userId);
 
             // If the user exists, update their watch hours
-            if (userIndex !== -1) {
-                userData[userIndex]['User watch hours'] = watchHours;
+            if (user) {
+                user['User watch hours'] = watchHours;
 
                 // Update userData.json file
                 fetch('userData.json', {
@@ -925,6 +1026,7 @@ function updateUserWatchHoursInUserData(userId, watchHours) {
         })
         .catch(error => console.error('Error fetching userData.json:', error));
 }
+
 
 // Function to display the user's watch hours
 function displayUserWatchHours() {
@@ -949,6 +1051,7 @@ window.addEventListener('DOMContentLoaded', function() {
 
     // Display the user's watch hours
     displayUserWatchHours();
+    
 });
 
 
@@ -966,7 +1069,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 });
-
 
 
 function showProfileDialog() {
@@ -1015,6 +1117,3 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
-
