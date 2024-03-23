@@ -1,5 +1,26 @@
 let user;
 
+function showNotification(message) {
+    // Check if the browser supports notifications
+    if (!("Notification" in window)) {
+        console.log("This browser does not support desktop notification");
+        alert(message);
+    } else if (Notification.permission === "granted") {
+        // If permission is already granted, create the notification
+        new Notification(message);
+    } else if (Notification.permission !== "denied") {
+        // Otherwise, request permission from the user
+        Notification.requestPermission().then(function (permission) {
+            if (permission === "granted") {
+                // If permission is granted, create the notification
+                new Notification(message);
+            }
+        });
+    }
+}
+
+
+
 // Function to set default user details in localStorage
 function setDefaultUser() {
     const defaultUser = {
@@ -19,17 +40,17 @@ function checkUserOnLoad() {
         setDefaultUser();
     } else {
         // User is logged in
-        alert(`Welcome, ${currentUser.firstName} ${currentUser.lastName}.`);
+        showNotification(`Welcome, ${currentUser.firstName} ${currentUser.lastName}.`);
 
         // Check if it's the user's birthday
         const today = new Date();
         const userBirthday = new Date(today.getFullYear(), currentUser.birthdayMonth - 1, currentUser.birthdayDay);
         if (userBirthday.getDate() === today.getDate() && userBirthday.getMonth() === today.getMonth()) {
-            alert(`Happy birthday, ${currentUser.firstName} ${currentUser.lastName}!`);
+            showNotification(`Happy birthday, ${currentUser.firstName} ${currentUser.lastName}!`);
         }
         else {
             // User hasn't provided their birthday, display a generic message
-            alert(`Enjoy your day, ${currentUser.firstName} ${currentUser.lastName}!`);
+            showNotification(`Enjoy your day, ${currentUser.firstName} ${currentUser.lastName}!`);
         }
     }
 }
@@ -41,7 +62,7 @@ function detectTodayDate() {
     const month = today.getMonth() + 1; // Month is 0-indexed, so add 1
     console.log("Today's Day:", day);
     console.log("Today's Month:", month);
-    alert(`Today is ${today}`);
+    showNotification(`Today is ${today}`);
 }
 
 // Function to retrieve the user's birthday day and month
@@ -70,9 +91,9 @@ function wishBirthday() {
 
     if (currentDay === birthdayDate.day && currentMonth === birthdayDate.month) {
         // User's birthday matches the current date
-        alert("Happy Birthday!");
+        showNotification("Happy Birthday!");
     } else {
-        alert("Enjoy your day!");
+        showNotification("Enjoy your day!");
     }
 }
 
@@ -391,12 +412,6 @@ async function createVideos(videosData) {
             }
         });
     
-        videoElement.addEventListener('waiting', function() {
-            // Handle the waiting event, such as showing a loading indicator or message
-            user = getCurrentUser();
-            alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
-        });
-
 
         videoElement.addEventListener('playing', function() {
             // Handle the waiting event, such as showing a loading indicator or message
@@ -441,7 +456,7 @@ async function createVideos(videosData) {
                 playTracker.incrementPlayCount(user, videoId); // Increment play count
             } else {
                 // User has exceeded the play count limit for this video
-                alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
+                showNotification(`You have exceeded the play count limit for this video ${videoData.title}.`);
                 playButton.disabled = true; // Disable the play button to prevent further plays
                 playButton.style.backgroundColor = "red";
             }
@@ -486,7 +501,7 @@ async function createVideos(videosData) {
             videoDiv.style.backgroundColor = "#fff";
             viewCount++;
             user = getCurrentUser();
-            alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
+            showNotification(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
             storeViewCount(videoElement.id, viewCount);
@@ -521,7 +536,7 @@ async function handleVideoInteraction(videoElement,  videoData) {
     user = getCurrentUser(); // Retrieve the current user
 
     if (user.firstName === "Lorem" && user.lastName === "Ipsum") {
-        alert(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
+        showNotification(`You are viewing as default user ${user.firstName} ${user.lastName}. Please login or sign up to personalize your experience.`);
     }
 
     if (!user) {
@@ -545,7 +560,7 @@ async function createVideosFromJSON(jsonFile) {
         const videosData = await response.json();
         createVideos(videosData);
     } catch (error) {
-        alert('Error fetching or parsing JSON:', error);
+        console.log('Error fetching or parsing JSON:', error);
     }
 }
 
@@ -869,14 +884,14 @@ function savePhone() {
 
 window.addEventListener('online', function(event) {
     // Handle online event
-    alert("You are online.");
+    showNotification("You are online.");
     hideLoadingOverlay();
 });
 
 window.addEventListener('offline', function(event) {
     // Handle offline event
     showLoadingOverlay();
-    alert("You are offline.");
+    showNotification("You are offline.");
 });
 
 function loadVideos(category) {
@@ -895,7 +910,7 @@ function loadVideos(category) {
         })
         .catch(error => {
             console.error('Error fetching videos:', error);
-            alert(error);
+            console.log(error);
         });
 }
 
@@ -1052,3 +1067,6 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
+
+
+
