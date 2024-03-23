@@ -375,7 +375,7 @@ function getVideoElementWithIdAttribute(videoId) {
     }
 }
 
-let isSeekAllowed = false;
+
 let currentTimeBeforeSeek;
 
 async function createVideos(videosData) {
@@ -395,23 +395,10 @@ async function createVideos(videosData) {
         videoElement.addEventListener('dblclick', function() {
             if (isTouchDevice()) {
                 enableFullscreen(videoElement);
+                videoElement.controls = false;
             }
         });
-        
-        videoElement.addEventListener('seeking', function() {
-            if (!isSeekAllowed) {
-                currentTimeBeforeSeek = videoElement.currentTime; // Store current time
-                videoElement.pause(); // Pause the video
-            }
-        });
-        
-        videoElement.addEventListener('seeked', function() {
-            if (!isSeekAllowed) {
-                videoElement.currentTime = currentTimeBeforeSeek; // Set current time back to what it was before seeking
-                videoElement.play(); // Resume playing the video
-            }
-        });
-    
+            
 
         videoElement.addEventListener('playing', function() {
             // Handle the waiting event, such as showing a loading indicator or message
