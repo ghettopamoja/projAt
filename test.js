@@ -481,10 +481,12 @@ async function createVideos(videosData) {
         videoElement.addEventListener("ended", function() {
             playButton.innerHTML = '<i class="fas fa-play"></i>';
             playButton.style.backgroundColor = "green";
-           // videoElement.pause();
+            videoElement.pause();
             videoElement.currentTime = 0;
             videoDiv.style.backgroundColor = "#fff";
             viewCount++;
+            user = getCurrentUser();
+            alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
             storeViewCount(videoElement.id, viewCount);
@@ -1050,6 +1052,3 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
-
