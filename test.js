@@ -7,17 +7,28 @@ function showNotification(message) {
         alert(message);
     } else if (Notification.permission === "granted") {
         // If permission is already granted, create the notification
-        new Notification(message);
+        try {
+            new Notification(message);
+        } catch (err) {
+            console.error("Error displaying notification:", err);
+            alert(message); // Fallback to alert if notification creation fails
+        }
     } else if (Notification.permission !== "denied") {
         // Otherwise, request permission from the user
         Notification.requestPermission().then(function (permission) {
             if (permission === "granted") {
                 // If permission is granted, create the notification
-                new Notification(message);
+                try {
+                    new Notification(message);
+                } catch (err) {
+                    console.error("Error displaying notification:", err);
+                    alert(message); // Fallback to alert if notification creation fails
+                }
             }
         });
     }
 }
+
 
 
 
@@ -500,7 +511,7 @@ async function createVideos(videosData) {
             videoElement.currentTime = 0;
             videoDiv.style.backgroundColor = "#fff";
             viewCount++;
-            user = getCurrentUser();
+            trackVideoWatchDuration(videoElement)
             showNotification(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
@@ -531,6 +542,69 @@ async function createVideos(videosData) {
         videosContainer.appendChild(videoDiv);
     });
 }
+
+// Function to update user data for the currently logged-in user
+function updateUserDetails(newData) {
+    // Retrieve user ID from local storage or another source representing the currently logged-in user
+    const userId = localStorage.getItem('userId');
+    if (!userId) {
+        console.error('User ID not found.');
+        return;
+    }
+
+    // Read userData.json
+    let userData = readJSONFromFile('userData.json');
+
+    // If userData is null or undefined, return
+    if (!userData) {
+        console.log('Error: userData is null or undefined.');
+        return;
+    }
+
+    // Find the user by ID
+    let userIndex = userData.findIndex(user => user.id === userId);
+
+    // If user exists, update their details
+    if (userIndex !== -1) {
+        // Increment watch hours
+        newData.watchHours = (userData[userIndex].watchHours || 0) + newData.watchHours;
+        
+        // Update other data if needed
+        userData[userIndex] = { ...userData[userIndex], ...newData };
+
+        // Write updated data back to userData.json
+        writeJSONToFile('userData.json', userData);
+        console.log(`User with ID ${userId} updated successfully.`);
+    } else {
+        // Handle case where user doesn't exist
+        console.log(`User with ID ${userId} not found.`);
+    }
+}
+
+// Function to track video watch duration and update user's watch hours
+function trackVideoWatchDuration(videoElement) {
+    // Variable to store the start time of the video
+    let startTime = 0;
+
+    // Listen for the timeupdate event to track the duration the video has been watched
+    videoElement.addEventListener("timeupdate", function() {
+        // If the video has started playing and startTime is not set
+        if (videoElement.currentTime > 0 && startTime === 0) {
+            // Set the startTime to the current time
+            startTime = videoElement.currentTime;
+        }
+
+        // Calculate the duration the video has been watched
+        const durationWatched = videoElement.currentTime - startTime;
+
+        // Convert the duration from seconds to hours (assuming 1 hour = 3600 seconds)
+        const watchHours = durationWatched / 3600;
+
+        // Update the user's watch hours
+        updateUserDetails({ watchHours });
+    });
+}
+
 
 async function handleVideoInteraction(videoElement,  videoData) {
     user = getCurrentUser(); // Retrieve the current user
