@@ -65,6 +65,7 @@ function detectTodayDate() {
     showNotification(`Today is ${today}`);
 }
 
+detectTodayDate();
 // Function to retrieve the user's birthday day and month
 function getBirthdayDate() {
     const currentUserData = JSON.parse(localStorage.getItem('currentUser'));
@@ -285,12 +286,20 @@ function getCurrentUser() {
     const firstName = localStorage.getItem('firstName');
     const lastName = localStorage.getItem('lastName'); // Corrected 'Second Name' to 'Last Name'
     const watchHours = localStorage.getItem('watchHours');
+    const birthdayDay = localStorage.getItem('birthdayDay');
+    const birthdayMonth = localStorage.getItem('birthdayMonth');
+    const IdNumber  = localStorage.getItem('IdNumber ');
+    const UniqueNumber = localStorage.getItem('UniqueNumber');
 
     if (firstName && lastName) {
         return {
             firstName: firstName,
             lastName: lastName,
-            watchHours: watchHours || '0'
+            watchHours: watchHours || '0',
+            birthdayDay:birthdayDay,
+            birthdayMonth: birthdayMonth,
+            IdNumber : IdNumber,
+            UniqueNumber : UniqueNumber
         };
     } else {
         // Set default user and return it
@@ -298,7 +307,11 @@ function getCurrentUser() {
         return {
             firstName: "Lorem",
             lastName: "Ipsum",
-            watchHours: 0
+            watchHours: 0,
+            birthdayDay:22,
+            birthdayMonth: 3,
+            IdNumber : '00000000',
+            UniqueNumber : '00000'
         };
     }
 }
