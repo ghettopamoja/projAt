@@ -393,14 +393,13 @@ async function createVideos(videosData) {
     
         videoElement.addEventListener('waiting', function() {
             // Handle the waiting event, such as showing a loading indicator or message
-            showLoadingOverlay();
-            console.log('Video is waiting for data to load...');
+            user = getCurrentUser();
+            alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
         });
 
 
         videoElement.addEventListener('playing', function() {
             // Handle the waiting event, such as showing a loading indicator or message
-            hideLoadingOverlay();
             console.log('Video is waiting for data to load...');
         });
         
