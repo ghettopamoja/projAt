@@ -301,6 +301,7 @@ function getCurrentUser() {
     const birthdayMonth = localStorage.getItem('birthdayMonth');
     const IdNumber  = localStorage.getItem('IdNumber ');
     const UniqueNumber = localStorage.getItem('UniqueNumber');
+    const phoneNumber = localStorage.getItem('phoneNumber')
 
     if (firstName && lastName) {
         return {
@@ -310,7 +311,8 @@ function getCurrentUser() {
             birthdayDay:birthdayDay,
             birthdayMonth: birthdayMonth,
             IdNumber : IdNumber,
-            UniqueNumber : UniqueNumber
+            UniqueNumber : UniqueNumber,
+            phoneNumber : phoneNumber
         };
     } else {
         // Set default user and return it
@@ -322,7 +324,8 @@ function getCurrentUser() {
             birthdayDay:22,
             birthdayMonth: 3,
             IdNumber : '00000000',
-            UniqueNumber : '00000'
+            UniqueNumber : '00000',
+            phoneNumber : "0000000000"
         };
     }
 }
@@ -335,13 +338,13 @@ function setDefaultUserIfNoUserLoggedIn() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) { // If no user is logged in, set the default user
         const defaultUser = {
-            "First Name": "Lorem",
-            "Last Name": "Ipsum",
-            "Phone number": "0000000000",
+            "firstName": "Lorem",
+            "lastName": "Ipsum",
+            "phoneNumber": "0000000000",
             "Password": "defaultpassword",
-            "ID number": "00000000",
-            "User Unique Number": "000000",
-            "User watch hours": "0"
+            "IdNnumber": "00000000",
+            "UniqueNumber": "000000",
+            "watchHours": "0"
         };
         localStorage.setItem('currentUser', JSON.stringify(defaultUser));
     }
@@ -546,8 +549,8 @@ async function createVideos(videosData) {
 // Function to update user data for the currently logged-in user
 function updateUserDetails(newData) {
     // Retrieve user ID from local storage or another source representing the currently logged-in user
-    const userId = localStorage.getItem('userId');
-    if (!userId) {
+    const userId = localStorage.getItem('currentUser');
+    if (!userId.IdNnumber) {
         console.error('User ID not found.');
         return;
     }
@@ -1141,6 +1144,3 @@ function updateNames() {
     return phoneNumber; // Return the updated phone number
   }
   
-
-
-
