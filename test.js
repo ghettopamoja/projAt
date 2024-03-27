@@ -291,6 +291,7 @@ function incrementViewCount(video) {
     viewsSpan.textContent = parseInt(viewsSpan.textContent) + 1;
 }
 
+const fs = require('fs');
 
 // Function to extract the current user information
 function getCurrentUser() {
@@ -308,11 +309,11 @@ function getCurrentUser() {
             firstName: firstName,
             lastName: lastName,
             watchHours: watchHours || '0',
-            birthdayDay:birthdayDay,
+            birthdayDay: birthdayDay,
             birthdayMonth: birthdayMonth,
-            IdNumber : IdNumber,
-            UniqueNumber : UniqueNumber,
-            phoneNumber : phoneNumber
+            IdNumber: IdNumber,
+            UniqueNumber: UniqueNumber,
+            phoneNumber: phoneNumber
         };
     } else {
         // Set default user and return it
@@ -321,18 +322,34 @@ function getCurrentUser() {
             firstName: "Lorem",
             lastName: "Ipsum",
             watchHours: 0,
-            birthdayDay:22,
+            birthdayDay: 22,
             birthdayMonth: 3,
-            IdNumber : '00000000',
-            UniqueNumber : '00000',
-            phoneNumber : "0000000000"
+            IdNumber: '00000000',
+            UniqueNumber: '00000',
+            phoneNumber: "0000000000"
         };
     }
 }
 
+// Function to write JSON data to a file
+function writeJSONToFile(fileName, data) {
+    fs.writeFile(fileName, JSON.stringify(data, null, 2), (err) => {
+        if (err) throw err;
+        console.log('Data has been written to', fileName);
+    });
+}
+
+// Get current user data
+const userData = getCurrentUser();
+
+// Write current user data to JSON file
+writeJSONToFile('userData.json', userData);
+
 
 // Logging the result of getCurrentUser function
 console.log(getCurrentUser());
+console.log(userData);
+
 
 function setDefaultUserIfNoUserLoggedIn() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -550,33 +567,33 @@ async function createVideos(videosData) {
 function updateUserDetails(newData) {
     // Retrieve user ID from local storage or another source representing the currently logged-in user
     const userId = localStorage.getItem('currentUser');
-    if (!userId.IdNnumber) {
+    if (!userId.IdNnumber|| !userId.phoneNumber) {
         console.error('User ID not found.');
         return;
     }
 
     // Read userData.json
-    let userData = readJSONFromFile('userData.json');
+    let userDatas = readJSONFromFile('userData.json');
 
     // If userData is null or undefined, return
-    if (!userData) {
+    if (!userDatas) {
         console.log('Error: userData is null or undefined.');
         return;
     }
 
     // Find the user by ID
-    let userIndex = userData.findIndex(user => user.id === userId);
+    let userIndex = userDatas.findIndex(user => user.IdNnumber === userId);
 
     // If user exists, update their details
     if (userIndex !== -1) {
         // Increment watch hours
-        newData.watchHours = (userData[userIndex].watchHours || 0) + newData.watchHours;
+        newData.watchHours = (userDatas[userIndex].watchHours || 0) + newData.watchHours;
         
         // Update other data if needed
-        userData[userIndex] = { ...userData[userIndex], ...newData };
+        userDatas[userIndex] = { ...userDatas[userIndex], ...newData };
 
         // Write updated data back to userData.json
-        writeJSONToFile('userData.json', userData);
+        writeJSONToFile('userData.json', userDatas);
         console.log(`User with ID ${userId} updated successfully.`);
     } else {
         // Handle case where user doesn't exist
@@ -723,8 +740,8 @@ window.onload = async function() {
 async function fetchUserData() {
     try {
         const response = await fetch('userData.json');
-        const userData = await response.json();
-        return userData;
+        const usersData = await response.json();
+        return usersData;
     } catch (error) {
         console.error('Error fetching user data:', error);
         return [];
