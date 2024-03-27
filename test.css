@@ -158,6 +158,12 @@ nav ul li a:hover{
     background-color: #fff;
     margin: auto;
 }
+.VideoContainer-new{
+    margin-top: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
 .video {
     width: 90%;
     height: auto;
@@ -830,5 +836,9 @@ dialog p{
     }
     .profile-info ul{
         width: 90%;
+    }
+    .VideoContainer-new{
+        margin-top: 200px;
+        
     }
 }
