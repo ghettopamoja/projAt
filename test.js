@@ -290,19 +290,16 @@ function incrementViewCount(video) {
     const viewsSpan = video.closest('.video-new').querySelector('.views span');
     viewsSpan.textContent = parseInt(viewsSpan.textContent) + 1;
 }
-
-const fs = require('fs');
-
 // Function to extract the current user information
 function getCurrentUser() {
     const firstName = localStorage.getItem('firstName');
-    const lastName = localStorage.getItem('lastName'); // Corrected 'Second Name' to 'Last Name'
+    const lastName = localStorage.getItem('lastName'); 
     const watchHours = localStorage.getItem('watchHours');
     const birthdayDay = localStorage.getItem('birthdayDay');
     const birthdayMonth = localStorage.getItem('birthdayMonth');
-    const IdNumber  = localStorage.getItem('IdNumber ');
+    const IdNumber = localStorage.getItem('IdNumber');
     const UniqueNumber = localStorage.getItem('UniqueNumber');
-    const phoneNumber = localStorage.getItem('phoneNumber')
+    const phoneNumber = localStorage.getItem('phoneNumber');
 
     if (firstName && lastName) {
         return {
@@ -322,33 +319,24 @@ function getCurrentUser() {
             firstName: "Lorem",
             lastName: "Ipsum",
             watchHours: 0,
-            birthdayDay: 22,
+            birthdayDay: 28,
             birthdayMonth: 3,
-            IdNumber: '00000000',
-            UniqueNumber: '00000',
-            phoneNumber: "0000000000"
+            IdNumber: 0,
+            UniqueNumber: 123456,
+            phoneNumber: 0
         };
     }
 }
 
-// Function to write JSON data to a file
-function writeJSONToFile(fileName, data) {
-    fs.writeFile(fileName, JSON.stringify(data, null, 2), (err) => {
-        if (err) throw err;
-        console.log('Data has been written to', fileName);
-    });
+// Function to update userData.json whenever there's a change in localStorage
+function updateUserDataJSON() {
+    const userData = getCurrentUser();
+    // Store userData in localStorage with the key 'userData'
+    localStorage.setItem('userData', JSON.stringify(userData));
 }
 
-// Get current user data
-const userData = getCurrentUser();
-
-// Write current user data to JSON file
-writeJSONToFile('userData.json', userData);
-
-
-// Logging the result of getCurrentUser function
-console.log(getCurrentUser());
-console.log(userData);
+// Event listener for changes in localStorage
+window.addEventListener('storage', updateUserDataJSON);
 
 
 function setDefaultUserIfNoUserLoggedIn() {
@@ -722,6 +710,7 @@ window.onload = async function() {
     showLoadingOverlay(); // Show the loading overlay immediately
     checkUserOnLoad();
     updateUserInfo();
+    updateUserDataJSON();
     // Generate random videos
     const response = await fetch('videos.json');
     const videosData = await response.json();
@@ -874,6 +863,8 @@ items.forEach(function(item) {
                     setTimeout(() => {
                         const category = item.textContent;
                         loadVideos(category);
+                        updateUserDataJSON();
+                        updateUserInfo();
                       setTimeout(() => {
                         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
                     }, 8000);
