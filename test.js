@@ -29,39 +29,27 @@ function showNotification(message) {
     }
 }
 
-
-
-
-// Function to set default user details in localStorage
-function setDefaultUser() {
-    const defaultUser = {
-        firstName: "Lorem",
-        lastName: "Ipsum",
-        watchHours: 0 // Adjust other properties as needed
-    };
-
-    localStorage.setItem('currentUser', JSON.stringify(defaultUser));
-}
-
 // Function to check if a user is logged in during page load or reload
 function checkUserOnLoad() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     if (!currentUser) {
         // No user is logged in, set default user
-        setDefaultUser();
+        setDefaultUserIfNoUserLoggedIn();
     } else {
         // User is logged in
         showNotification(`Welcome, ${currentUser.firstName} ${currentUser.lastName}.`);
-
+        alert(`Welcome, ${currentUser.firstName} ${currentUser.lastName}.`);
         // Check if it's the user's birthday
         const today = new Date();
         const userBirthday = new Date(today.getFullYear(), currentUser.birthdayMonth - 1, currentUser.birthdayDay);
         if (userBirthday.getDate() === today.getDate() && userBirthday.getMonth() === today.getMonth()) {
             showNotification(`Happy birthday, ${currentUser.firstName} ${currentUser.lastName}!`);
+            alert(`Happy birthday, ${currentUser.firstName} ${currentUser.lastName}!`);
         }
         else {
             // User hasn't provided their birthday, display a generic message
             showNotification(`Enjoy your day, ${currentUser.firstName} ${currentUser.lastName}!`);
+            alert(`Enjoy your day, ${currentUser.firstName} ${currentUser.lastName}!`);
         }
     }
 }
@@ -104,8 +92,10 @@ function wishBirthday() {
     if (currentDay === birthdayDate.day && currentMonth === birthdayDate.month) {
         // User's birthday matches the current date
         showNotification("Happy Birthday!");
+        alert("Happy Birthday!");
     } else {
         showNotification("Enjoy your day!");
+        alert("Enjoy your day!");
     }
 }
 
@@ -407,7 +397,6 @@ function getVideoElementWithIdAttribute(videoId) {
     }
 }
 
-
 let currentTimeBeforeSeek;
 
 async function createVideos(videosData) {
@@ -431,12 +420,12 @@ async function createVideos(videosData) {
             }
         });
             
-
         videoElement.addEventListener('playing', function() {
             // Handle the waiting event, such as showing a loading indicator or message
-            console.log('Video is waiting for data to load...');
+            console.log('Thank you for playing...');
+            trackVideoWatchDuration(videoElement);
         });
-        
+
         const videoTitle = document.createElement('h2');
         videoTitle.textContent = videoData.title;
 
@@ -444,20 +433,20 @@ async function createVideos(videosData) {
         weblinkDiv.classList.add('weblinks');
 
         const weblinkTitle = document.createElement('h2');
-        weblinkTitle.textContent = `Website link :${videoData.website} `;
+        weblinkTitle.textContent = `Website link: ${videoData.website} `;
 
         const buttonsDiv = document.createElement('div');
         buttonsDiv.classList.add('buttons');
         let isPlaying = false;
-       
+
         const playButton = document.createElement('button');
         playButton.classList.add('play-button');
         playButton.innerHTML = '<i class="fas fa-play"></i>';
         playButton.addEventListener('click', async function() {
-            await handleVideoInteraction(videoElement, this, videoData);         
+            await handleVideoInteraction(videoElement, videoData);         
             user = getCurrentUser();
             const videoId = videoData.videoId;
-            const limit  = 3;
+            const limit = 3;
             if (!playTracker.hasPlayedMoreThanLimit(user, videoId, limit)) {
                 // User is logged in or signed up, and play count limit is not exceeded
                 trackVideoProgress(videoElement);
@@ -476,11 +465,11 @@ async function createVideos(videosData) {
             } else {
                 // User has exceeded the play count limit for this video
                 showNotification(`You have exceeded the play count limit for this video ${videoData.title}.`);
+                alert(`You have exceeded the play count limit for this video ${videoData.title}.`);
                 playButton.disabled = true; // Disable the play button to prevent further plays
                 playButton.style.backgroundColor = "red";
             }
         });
-
 
         buttonsDiv.appendChild(playButton);
         
@@ -519,8 +508,8 @@ async function createVideos(videosData) {
             videoElement.currentTime = 0;
             videoDiv.style.backgroundColor = "#fff";
             viewCount++;
-            trackVideoWatchDuration(videoElement)
             showNotification(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
+            alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
             storeViewCount(videoElement.id, viewCount);
@@ -557,6 +546,8 @@ function updateUserDetails(newData) {
     const userId = localStorage.getItem('currentUser');
     if (!userId.IdNnumber|| !userId.phoneNumber) {
         console.error('User ID not found.');
+        getCurrentUser();
+        console.log(getCurrentUser());
         return;
     }
 
@@ -827,9 +818,6 @@ function fetchVideosXHR(callback) {
 
 
 
-
-
-
 // Get all items with the class "item"
 const items = document.querySelectorAll('.item');
 
@@ -846,6 +834,9 @@ items.forEach(function(item) {
                 showLoadingOverlay(); // Show the loading overlay immediately
                 setTimeout(() => {
                     createVideosFromJSON('videos.json');
+                    updateUserDataJSON();
+                    updateUserInfo();
+                    videosContainer.classList.add('VideoContainer-new');
                     setTimeout(() => {
                         hideLoadingOverlay(); // Hide the loading overlay after 2000 milliseconds
                     }, 3000);
