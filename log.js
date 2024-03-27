@@ -111,7 +111,9 @@ function signUp() {
                     watchHours: newUser["User watch hours"],
                     birthdayDay: newUser["BirthdayDay"], // Add birthday day
                     birthdayMonth: newUser["BirthdayMonth"], // Add birthday month
-                    IdNumber : newUser['ID number']
+                    IdNumber : newUser['ID number'],
+                    UniqueNumber : newUser['User Unique Number'],
+                    phoneNumber: newUser['Phone number']
                 };
                 
                 // Store the currentUserData object in localStorage
@@ -211,7 +213,9 @@ function login() {
                 watchHours: user['User watch hours'],
                 birthdayDay: user["BirthdayDay"], // Add birthday day
                 birthdayMonth: user["BirthdayMonth"], // Add birthday month
-                IdNumber : user['ID number']
+                IdNumber : user['ID number'], 
+                UniqueNumber : user['User Unique Number'],
+                phoneNumber: user['Phone number']
             };
         
             // Store the currentUser object in localStorage
@@ -259,7 +263,6 @@ function getBirthdayDate() {
 function wishBirthday() {
     const birthdayDate = getBirthdayDate();
     if (!birthdayDate) {
-        console.log("Birthday information not found.");
         return;
     }
 
