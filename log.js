@@ -1,4 +1,93 @@
-  
+
+// Get references to all input fields
+const firstNameInput = document.getElementById('firstName');
+const secondNameInput = document.getElementById('SecondName');
+const phoneNumberInput = document.getElementById('loginPhoneNumber');
+const idNumberInput = document.getElementById('idNumber');
+const passwordInput = document.getElementById('loginPassword');
+const loginButton = document.getElementById('loginButton');
+
+// Add event listeners to first name input
+firstNameInput.addEventListener('input', function() {
+    if (this.value.length >= 3) {
+        secondNameInput.disabled = false;
+    } else {
+        secondNameInput.disabled = true;
+        secondNameInput.value = '';
+        phoneNumberInput.disabled = true;
+        phoneNumberInput.value = '';
+        idNumberInput.disabled = true;
+        idNumberInput.value = '';
+        passwordInput.disabled = true;
+        passwordInput.value = '';
+    }
+});
+
+// Add event listeners to last name input
+secondNameInput.addEventListener('input', function() {
+    if (this.value.length >= 3) {
+        phoneNumberInput.disabled = false;
+    } else {
+        phoneNumberInput.disabled = true;
+        phoneNumberInput.value = '';
+        idNumberInput.disabled = true;
+        idNumberInput.value = '';
+        passwordInput.disabled = true;
+        passwordInput.value = '';
+    }
+});
+
+// Add event listeners to phone number input
+phoneNumberInput.addEventListener('input', function() {
+    if (this.value.length >= 3) {
+        idNumberInput.disabled = false;
+    } else {
+        idNumberInput.disabled = true;
+        idNumberInput.value = '';
+        passwordInput.disabled = true;
+        passwordInput.value = '';
+    }
+});
+
+// Add event listeners to ID number input
+idNumberInput.addEventListener('input', function() {
+    if (this.value.length >= 3) {
+        passwordInput.disabled = false;
+    } else {
+        passwordInput.disabled = true;
+        passwordInput.value = '';
+    }
+});
+
+
+// Add event listeners to first name input
+firstNameInput.addEventListener('input', checkInputs);
+
+// Add event listeners to last name input
+secondNameInput.addEventListener('input', checkInputs);
+
+// Add event listeners to phone number input
+phoneNumberInput.addEventListener('input', checkInputs);
+
+// Add event listeners to ID number input
+idNumberInput.addEventListener('input', checkInputs);
+
+// Add event listeners to password input
+passwordInput.addEventListener('input', checkInputs);
+
+// Function to check inputs and enable login button if all fields have values
+function checkInputs() {
+    if (firstNameInput.value.length >= 3 &&
+        secondNameInput.value.length >= 3 &&
+        phoneNumberInput.value.length >= 3 &&
+        idNumberInput.value.length >= 3 &&
+        passwordInput.value.length >= 1) {
+        loginButton.disabled = false;
+    } else {
+        loginButton.disabled = true;
+    }
+}
+
   // Function to validate phone number format
 function validatePhoneNumber(phoneNumber) {
     // Check if the phoneNumber is numeric and has exactly 10 digits
