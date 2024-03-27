@@ -9,18 +9,22 @@
 <body>
     <h1>Login form</h1>
     <div class="container">
-        <input type="text" id='firstName' placeholder="Enter your First name" required>
-        <span id="correcto"></span>
-        <input type="text" id="SecondName" placeholder="Enter your Second name" required>
-        <span id="correctos"></span>
-        <input type="text" name="number" id="loginPhoneNumber" placeholder="Enter your phone-number" required>
-        <span id="correcto"></span>
-        <input type="text" name="user-id" id="idNumber" placeholder="Enter your ID number" required>
-        <span id="correcto"></span>
-        <input type="password" name="pass" id="loginPassword" placeholder="Enter your password" required>
-        <span id="correcto"></span>
+        <input type="text" id="firstName" placeholder="Enter your First name" required>
+        <span id="correctfname"></span>
+
+        <input type="text" id="SecondName" placeholder="Enter your Second name" required disabled>
+        <span id="correctsname"></span>
+
+        <input type="text" name="number" id="loginPhoneNumber" placeholder="Enter your phone-number" required disabled>
+        <span id="correctphone"></span>
+
+        <input type="text" name="user-id" id="idNumber" placeholder="Enter your ID number" required disabled>
+        <span id="correctid"></span>
+
+        <input type="password" name="pass" id="loginPassword" placeholder="Enter your password" required disabled>
+        <span id="correctopassword"></span>
         <p>Forgot <a href="#">Password</a> ?</p>
-        <button onclick="login()">LOGIN</button>
+        <button onclick="login()" disabled>LOGIN</button>
     </div>
     <h1>Sign up here</h1>
     <div class="container">
