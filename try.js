@@ -206,7 +206,7 @@ async function createVideos(videosData) {
         videoElement.addEventListener('playing', function() {
             // Handle the waiting event, such as showing a loading indicator or message
             console.log('Thank you for playing...');
-            trackVideoWatchDuration(videoElement);
+            //trackVideoWatchDuration(videoElement);
         });
 
         // Show loading overlay when video starts loading
@@ -241,6 +241,7 @@ async function createVideos(videosData) {
         playButton.classList.add('play-button');
         playButton.innerHTML = '<i class="fas fa-play"></i>';
         playButton.addEventListener('click', async function() {
+            handleSingleVideoPlay(videoElement)
             await handleVideoInteraction(videoElement, videoData);         
             user = getCurrentUser();
             const videoId = videoData.videoId;
@@ -337,6 +338,25 @@ async function createVideos(videosData) {
         videosContainer.appendChild(videoDiv);
     });
 }
+
+function handleSingleVideoPlay(videoElement) {
+    const allVideos = document.querySelectorAll('.video-new video');
+    
+    // Pause all other videos
+    allVideos.forEach(otherVideo => {
+        if (otherVideo !== videoElement && !otherVideo.paused) {
+            otherVideo.pause();
+            const playButton = otherVideo.nextElementSibling.querySelector('.play-button');
+            playButton.innerHTML = '<i class="fas fa-play"></i>'; // Change button icon to play
+        }
+    });
+
+    // Play the target video
+    videoElement.play();
+    const playButton = videoElement.nextElementSibling.querySelector('.play-button');
+    playButton.innerHTML = '<i class="fas fa-pause"></i>'; // Change button icon to pause
+}
+
 
 async function handleVideoInteraction(videoElement, videoData) {
     const user = getCurrentUser(); // Retrieve the current user
@@ -456,6 +476,69 @@ if (!localStorage.getItem('totalWatchHours')) {
 if (!localStorage.getItem('lastUpdateTime')) {
     localStorage.setItem('lastUpdateTime', lastUpdateTime.toFixed(2));
 }
+
+// Function to update user data for the currently logged-in user
+function updateUserDetails(newData) {
+    // Retrieve user ID from local storage or another source representing the currently logged-in user
+    const userId = localStorage.getItem('currentUser');
+
+    if (!userId) {
+        console.error('User ID not found.');
+        getCurrentUser();
+        console.log(getCurrentUser());
+        return;
+    }
+
+    // Read userData.json
+    let userDatas = readJSONFromFile('userData.json');
+
+    // If userData is null or undefined, return
+    if (!userDatas) {
+        console.log('Error: userData is null or undefined.');
+        return;
+    }
+
+    // Find the user by ID
+    let userIndex = userDatas.findIndex(user => user.IdNnumber === userId);
+
+    // If user exists, update their details
+    if (userIndex !== -1) {
+        // Increment watch hours
+        newData.watchHours = (userDatas[userIndex].watchHours || 0) + newData.watchHours;
+
+        // Update other data if needed
+        userDatas[userIndex] = { ...userDatas[userIndex], ...newData };
+
+        // Write updated data back to userData.json
+        writeJSONToFile('userData.json', userDatas);
+        console.log(`User with ID ${userId} updated successfully.`);
+    } else {
+        // Handle case where user doesn't exist
+        console.log(`User with ID ${userId} not found.`);
+    }
+}
+
+// Function to track video watch duration and update user's watch hours
+function trackVideoWatchDuration(videoElement) {
+    // Variable to store the start time of the video
+    let startTime = 0;
+
+    // Listen for the timeupdate event to track the duration the video has been watched
+    videoElement.addEventListener("timeupdate", function() {
+        // If the video has started playing and startTime is not set
+        if (videoElement.currentTime > 0 && startTime === 0) {
+            // Set the startTime to the current time
+            startTime = videoElement.currentTime;
+        }
+
+        // Calculate the duration the video has been watched in seconds
+        const durationWatchedInSeconds = (videoElement.currentTime - startTime) * 3600;
+
+        // Update the user's watch hours
+        updateUserDetails({ watchHours: durationWatchedInSeconds });
+    });
+}
+
 
 function togglePlayButton(button, isPlaying) {
     const icon = button.querySelector('i');
