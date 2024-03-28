@@ -309,9 +309,9 @@ async function createVideos(videosData) {
             viewCount++;
             showNotification(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
-            incrementViewCount(this); // 'this' refers to the video element  
+            //incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
-            storeViewCount(videoElement.id, viewCount);
+            //storeViewCount(videoElement.id, viewCount);
            
             
         });
