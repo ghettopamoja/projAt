@@ -211,17 +211,17 @@ async function createVideos(videosData) {
 
         // Show loading overlay when video starts loading
         videoElement.addEventListener('loadstart', () => {
-            videoElement.classList.add('loading-overlay');
+            //videoElement.classList.add('loading-overlay');
         });
         
         // Hide loading overlay when video has loaded
         videoElement.addEventListener('loadeddata', () => {
-            videoElement.classList.remove('loading-overlay');
+           // videoElement.classList.remove('loading-overlay');
         });
         
         // Show loading overlay if video encounters an error
         videoElement.addEventListener('error', () => {
-            videoElement.classList.add('loading-overlay');
+           // videoElement.classList.add('loading-overlay');
         });
 
         const videoTitle = document.createElement('h2');
@@ -309,9 +309,9 @@ async function createVideos(videosData) {
             viewCount++;
             showNotification(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
             alert(`Thankyou ${user['firstName']} for viewing ${videoData.title}`);
-            //incrementViewCount(this); // 'this' refers to the video element  
+            incrementViewCount(this); // 'this' refers to the video element  
             // Store the updated view count
-            //storeViewCount(videoElement.id, viewCount);
+            storeViewCount(videoElement.id, viewCount);
            
             
         });
